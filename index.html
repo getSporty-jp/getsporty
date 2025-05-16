@@ -10,26 +10,30 @@
     body {
       font-family: 'Noto Sans JP', sans-serif;
       margin: 0;
-      background: #fffaf5 url('https://www.transparenttextures.com/patterns/paper-fibers.png'); /* Textured paper feel */
-      color: #4c4c4c;
+      background: #fdfdfd;
+      color: #333;
+      background-image: url('https://i.imgur.com/Y0hIkhC.png'); /* minimalistischer Sakura-Baum */
+      background-repeat: no-repeat;
+      background-size: 380px auto;
+      background-position: bottom right;
     }
 
     header {
       text-align: center;
       padding: 2.5rem 1rem;
-      background: #f8e1e7; /* Soft Sakura Pink */
-      border-bottom: 3px solid #d98880;
+      background: #ffffff;
+      border-bottom: 2px solid #eee;
     }
 
     header h1 {
-      font-size: 2.8rem;
+      font-size: 2.6rem;
       color: #c0392b;
       margin-bottom: 0.4rem;
     }
 
     header p {
-      font-size: 1.2rem;
-      color: #8e4b50;
+      font-size: 1.1rem;
+      color: #7a3e3e;
     }
 
     .search-box {
@@ -38,23 +42,23 @@
       display: flex;
       gap: 1rem;
       padding: 1rem;
-      background: rgba(255, 255, 255, 0.85);
-      border-radius: 12px;
-      border: 1px solid #f2d7d5;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+      background: white;
+      border-radius: 10px;
+      border: 1px solid #ddd;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
     }
 
     .search-box input {
       flex: 1;
       padding: 0.9rem;
       font-size: 1rem;
-      border: 1px solid #ddd;
+      border: 1px solid #ccc;
       border-radius: 8px;
     }
 
     .search-box button {
       padding: 0.9rem 1.4rem;
-      background: #e74c3c;
+      background: #c0392b;
       color: white;
       font-weight: bold;
       border: none;
@@ -64,7 +68,7 @@
     }
 
     .search-box button:hover {
-      background: #c0392b;
+      background: #962d22;
     }
 
     .categories {
@@ -75,10 +79,10 @@
     }
 
     .card {
-      background: rgba(255, 255, 255, 0.95);
+      background: white;
       border-radius: 10px;
       padding: 1.5rem;
-      border: 1px solid #f8c6c8;
+      border: 1px solid #eee;
       text-align: center;
       box-shadow: 0 2px 5px rgba(0,0,0,0.05);
       transition: transform 0.2s;
@@ -97,10 +101,17 @@
     footer {
       text-align: center;
       padding: 2rem;
-      background: #f9e9ed;
-      color: #7b3b3b;
+      background: #f5f5f5;
+      color: #777;
       font-size: 0.9rem;
-      border-top: 2px solid #ddb6b6;
+      border-top: 1px solid #ddd;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        background-size: 250px auto;
+        background-position: bottom right;
+      }
     }
   </style>
 </head>
@@ -108,12 +119,12 @@
 
   <header>
     <h1>GetSporty Japan</h1>
-    <p>あなたに合ったスポーツ用品を見つけよう 🌸</p>
+    <p>あなたに合ったスポーツ用品を見つけよう</p>
   </header>
 
   <div class="search-box">
-    <input type="text" placeholder="例: 8歳の息子に合うバスケットボールの道具を教えて" />
-    <button onclick="alert('KI kommt bald 🚀')">セットを作成</button>
+    <input type="text" placeholder="例: 小学生の息子に合うバスケットボール用品は？" />
+    <button onclick="alert('スポーツセットを準備中です 🚀')">セットを作成</button>
   </div>
 
   <div class="categories">
@@ -148,7 +159,7 @@
   </div>
 
   <footer>
-    &copy; 2025 GetSporty Japan – 楽しく、健康に、スポーティに。
+    &copy; 2025 GetSporty Japan – スポーツの第一歩をここから。
   </footer>
 
 </body>
