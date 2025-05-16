@@ -24,7 +24,7 @@
       display: flex;
       height: 100%;
       width: 600%;
-      animation: slide 30s infinite linear;
+      animation: slide 60s infinite linear;
     }
 
     .slide {
@@ -33,6 +33,13 @@
       justify-content: center;
       align-items: center;
       background-color: #fff;
+    }
+
+    .slide img {
+      height: 150px;
+      width: 150px;
+      object-fit: contain;
+      opacity: 0.9;
     }
 
     svg.icon {
@@ -144,13 +151,9 @@
 
   <header>
     <div class="slideshow" aria-label="Sportarten Slideshow">
-      <!-- Baseball Ball -->
-      <div class="slide" aria-label="Baseball">
-        <svg class="icon" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <circle cx="32" cy="32" r="30" />
-          <path d="M20 20 L44 44 M44 20 L20 44" />
-          <path d="M26 12 L12 26 M52 40 L40 52" />
-        </svg>
+      <!-- Bild: Baseball -->
+      <div class="slide" aria-label="Baseball Bild">
+        <img src="baseball-icon.jpeg" alt="Baseball Icon" />
       </div>
       <!-- Football -->
       <div class="slide" aria-label="Football">
