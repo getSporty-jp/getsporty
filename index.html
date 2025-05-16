@@ -1,158 +1,186 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Slicer-Button mit Bildrotation</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GetSporty – Players are made, not born</title>
   <style>
-    body {
-      margin: 0;
-      padding: 0;
-      background-color: #111;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      overflow: hidden;
-    }
-
-    .background-image {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      object-fit: cover;
-      z-index: -2;
-      transition: opacity 1s ease-in-out;
-    }
-
-    /* Dein Button-Style */
-    .btn-17,
-    .btn-17 *,
-    .btn-17 :after,
-    .btn-17 :before,
-    .btn-17:after,
-    .btn-17:before {
-      border: 0 solid;
+    * {
       box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
-    .btn-17 {
-      -webkit-tap-highlight-color: transparent;
-      -webkit-appearance: button;
-      background-color: #000;
-      background-image: none;
-      color: #fff;
-      cursor: pointer;
-      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
-        Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif,
-        Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
-      font-size: 100%;
-      font-weight: 900;
-      line-height: 1.5;
-      margin: 0;
-      -webkit-mask-image: -webkit-radial-gradient(#000, #fff);
-      padding: 0;
-      text-transform: uppercase;
-      border-radius: 99rem;
-      border-width: 2px;
-      padding: 0.8rem 3rem;
-      z-index: 1;
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f4f4f4;
+      color: #333;
+    }
+
+    /* Slideshow Container */
+    .slideshow-container {
       position: relative;
+      max-width: 100%;
+      height: 100vh;
       overflow: hidden;
     }
 
-    .btn-17 .text-container {
-      display: block;
-      mix-blend-mode: difference;
-      position: relative;
-      z-index: 2;
-    }
-
-    .btn-17 .text {
-      display: block;
-      position: relative;
-    }
-
-    .btn-17:hover .text {
-      animation: move-up-alternate 0.3s forwards;
-    }
-
-    @keyframes move-up-alternate {
-      0% { transform: translateY(0); }
-      50% { transform: translateY(80%); }
-      51% { transform: translateY(-80%); }
-      100% { transform: translateY(0); }
-    }
-
-    .btn-17:after,
-    .btn-17:before {
-      --skew: 0.2;
-      background: #fff;
-      content: "";
-      display: block;
-      height: 102%;
-      left: calc(-50% - 50% * var(--skew));
-      pointer-events: none;
+    .slide {
+      display: none;
       position: absolute;
-      top: -104%;
-      transform: skew(calc(150deg * var(--skew))) translateY(var(--progress, 0));
-      transition: transform 0.2s ease;
       width: 100%;
-      z-index: 0;
+      height: 100%;
     }
 
-    .btn-17:after {
-      --progress: 0%;
-      left: calc(50% + 50% * var(--skew));
-      top: 102%;
-      z-index: 0;
+    .slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
 
-    .btn-17:hover:before {
-      --progress: 100%;
+    /* Logo und Slogan */
+    .overlay {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      color: white;
+      z-index: 2;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
     }
 
-    .btn-17:hover:after {
-      --progress: -102%;
+    .overlay img {
+      width: 200px;
+      margin-bottom: 20px;
+    }
+
+    .overlay h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+
+    /* Kategorien */
+    .categories {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      background-color: #fff;
+      padding: 20px;
+      border-top: 2px solid #eee;
+      border-bottom: 2px solid #eee;
+    }
+
+    .category {
+      background-color: #ffe6f0;
+      color: #333;
+      font-weight: bold;
+      padding: 15px 25px;
+      margin: 10px;
+      border-radius: 25px;
+      box-shadow: 0 2px 6px rgba(212,43,99,0.3);
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .category:hover {
+      background-color: #ffd1e0;
+    }
+
+    /* Chatbox */
+    .chatbox {
+      width: 100%;
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .chatbox h2 {
+      margin-bottom: 15px;
+      color: #d42b63;
+    }
+
+    .chatbox input {
+      width: 100%;
+      padding: 10px;
+      font-size: 1rem;
+      border: 2px solid #d42b63;
+      border-radius: 6px;
+      outline: none;
+    }
+
+    @media (max-width: 768px) {
+      .overlay h1 {
+        font-size: 1.8rem;
+      }
+
+      .overlay img {
+        width: 150px;
+      }
+
+      .category {
+        padding: 10px 20px;
+        margin: 8px;
+      }
     }
   </style>
 </head>
 <body>
 
-  <!-- Hintergrundbild -->
-  <img class="background-image" id="bgImage" src="baseball-icon.jpeg" alt="Hintergrundbild">
+  <!-- Slideshow -->
+  <div class="slideshow-container">
+    <div class="slide">
+      <img src="images/slide1.jpg" alt="Baseball">
+    </div>
+    <div class="slide">
+      <img src="images/slide2.jpg" alt="Basketball">
+    </div>
+    <div class="slide">
+      <img src="images/slide3.jpg" alt="Football">
+    </div>
 
-  <!-- Button -->
-  <button class="btn-17">
-    <span class="text-container">
-      <span class="text">Los geht's</span>
-    </span>
-  </button>
+    <!-- Overlay mit Logo und Slogan -->
+    <div class="overlay">
+      <img src="images/logo.png" alt="GetSporty Logo">
+      <h1>Players are made, not born. Get ready!</h1>
+    </div>
+  </div>
 
+  <!-- Kategorien -->
+  <section class="categories">
+    <div class="category">Schutzausrüstung</div>
+    <div class="category">Kinder</div>
+    <div class="category">Trikots</div>
+    <div class="category">Accessoires</div>
+    <div class="category">Profis</div>
+    <div class="category">Anfänger</div>
+  </section>
+
+  <!-- Chatbox -->
+  <section class="chatbox">
+    <h2>Frage unseren KI-Coach</h2>
+    <input type="text" placeholder="Welche Sportart interessiert dich?">
+  </section>
+
+  <!-- JavaScript für Slideshow -->
   <script>
-    const images = [
-      "baseball-icon.jpeg",
-      "basketball-icon.jpeg",
-      "football-icon.jpeg"
-    ];
+    let slideIndex = 0;
+    const slides = document.getElementsByClassName("slide");
 
-    let index = 0;
-    const bg = document.getElementById("bgImage");
+    function showSlides() {
+      for (let i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+      }
+      slideIndex++;
+      if (slideIndex > slides.length) {slideIndex = 1}
+      slides[slideIndex-1].style.display = "block";
+      setTimeout(showSlides, 5000); // Wechselt alle 5 Sekunden
+    }
 
-    setInterval(() => {
-      index = (index + 1) % images.length;
-      const nextImage = images[index];
-
-      // Für sanften Übergang
-      bg.style.opacity = 0;
-
-      setTimeout(() => {
-        bg.src = nextImage;
-        bg.style.opacity = 1;
-      }, 500); // Zeit für Fade-Out
-    }, 5000); // Alle 5 Sekunden wechseln
+    showSlides();
   </script>
 
 </body>
