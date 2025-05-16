@@ -1,195 +1,139 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <title>GetSporty Japan</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GetSporty - Japan Style</title>
   <style>
     body {
-      font-family: 'Noto Sans JP', sans-serif;
       margin: 0;
-      background: #fff;
-      color: #333;
+      font-family: "Arial", sans-serif;
+      background: #f4f4f4;
       overflow-x: hidden;
     }
 
-    /* === SLIDESHOW === */
-    .slideshow-container {
+    header {
       position: relative;
       height: 300px;
+      background: #fff;
       overflow: hidden;
+      border-bottom: 2px solid #eee;
     }
 
-    .slides {
+    .slideshow {
       display: flex;
       height: 100%;
-      animation: slideAnimation 20s infinite;
+      width: 600%;
+      animation: slide 30s infinite linear;
     }
 
     .slide {
-      flex: 0 0 100%;
-      background-size: cover;
-      background-position: center;
+      flex: 1 0 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #fff;
     }
 
-    .logo-overlay {
+    .slide img {
+      height: 200px;
+      object-fit: contain;
+      opacity: 0.8;
+    }
+
+    @keyframes slide {
+      0% { transform: translateX(0%); }
+      16% { transform: translateX(-100%); }
+      32% { transform: translateX(-200%); }
+      48% { transform: translateX(-300%); }
+      64% { transform: translateX(-400%); }
+      80% { transform: translateX(-500%); }
+      100% { transform: translateX(0%); }
+    }
+
+    .logo {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      font-size: 3rem;
+      font-size: 2rem;
       font-weight: bold;
-      color: white;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-      z-index: 10;
-      pointer-events: none;
-    }
-
-    @keyframes slideAnimation {
-      0%, 20% { transform: translateX(0%); }
-      25%, 45% { transform: translateX(-100%); }
-      50%, 70% { transform: translateX(-200%); }
-      75%, 95% { transform: translateX(-300%); }
-      100% { transform: translateX(0%); }
-    }
-
-    /* === KATEGORIEN === */
-    .categories {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 1rem;
-      padding: 2rem;
-    }
-
-    .card {
-      background: #fff;
-      border: 1px solid #ddd;
+      color: #d42b63;
+      z-index: 2;
+      background: rgba(255,255,255,0.7);
+      padding: 10px 20px;
       border-radius: 10px;
-      text-align: center;
-      padding: 1.2rem;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
     }
 
-    .card h3 {
-      margin: 0.5rem 0;
+    .categories {
+      display: flex;
+      justify-content: space-around;
+      padding: 2rem;
+      background: #fff;
+      border-bottom: 2px solid #eee;
     }
 
-    /* === KI-BEREICH === */
-    .ki-box {
-      text-align: center;
-      padding: 2rem 1rem;
-      position: relative;
-    }
-
-    .ki-box input {
-      padding: 1rem;
-      width: 60%;
-      max-width: 500px;
+    .category {
       font-size: 1rem;
-      border-radius: 8px;
-      border: 1px solid #ccc;
+      color: #333;
+      font-weight: bold;
     }
 
-    .ki-box button {
-      margin-left: 1rem;
+    .ki-section {
+      padding: 3rem 2rem;
+      text-align: center;
+      background: linear-gradient(to bottom, #fff 0%, #f9f9f9 100%);
+    }
+
+    .ki-section input {
+      width: 60%;
       padding: 1rem;
-      background-color: #333;
-      color: white;
-      font-weight: bold;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
+      font-size: 1rem;
+      border: 2px solid #d42b63;
+      border-radius: 5px;
     }
 
     .arrow {
       font-size: 2rem;
-      color: #aaa;
-      animation: bounce 1s infinite;
-      margin-bottom: 0.5rem;
+      color: #d42b63;
+      margin-top: 1rem;
+      animation: bounce 2s infinite;
     }
 
     @keyframes bounce {
       0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
-    }
-
-    /* Dynamischer Abschnitt */
-    .response-area {
-      padding: 1rem 2rem;
-      text-align: center;
-      transition: all 0.3s ease-in-out;
-    }
-
-    footer {
-      margin-top: 2rem;
-      text-align: center;
-      padding: 1rem;
-      background: #f4f4f4;
-      font-size: 0.9rem;
-      color: #555;
+      50% { transform: translateY(10px); }
     }
   </style>
 </head>
 <body>
 
-  <!-- SLIDESHOW + LOGO -->
-  <div class="slideshow-container">
-    <div class="logo-overlay">🏀 GetSporty Japan 🏈</div>
-    <div class="slides">
-      <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1580741753491-88fed88c5b1a');"></div>
-      <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1599058917212-d6f3bb976918');"></div>
-      <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1578271884039-1dd384f0c5f4');"></div>
-      <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1606541233559-9f53a9eec8df');"></div>
+  <header>
+    <div class="slideshow">
+      <div class="slide"><img src="https://example.com/baseball-icon.png" alt="Baseball" /></div>
+      <div class="slide"><img src="https://example.com/football-icon.png" alt="Football" /></div>
+      <div class="slide"><img src="https://example.com/tabletennis-icon.png" alt="Tischtennis" /></div>
+      <div class="slide"><img src="https://example.com/basketball-icon.png" alt="Basketball" /></div>
+      <div class="slide"><img src="https://example.com/karate-icon.png" alt="Karate" /></div>
+      <div class="slide"><img src="https://example.com/judo-icon.png" alt="Judo" /></div>
     </div>
-  </div>
+    <div class="logo">GetSporty</div>
+  </header>
 
-  <!-- KATEGORIEN -->
-  <div class="categories">
-    <div class="card"><h3>Schutzausrüstung</h3><p>Für Sicherheit beim Sport</p></div>
-    <div class="card"><h3>Trikots</h3><p>Offizielle & stylishe Outfits</p></div>
-    <div class="card"><h3>Accessoires</h3><p>Von Socken bis Stirnband</p></div>
-    <div class="card"><h3>Kids</h3><p>Sportartikel für Kinder</p></div>
-    <div class="card"><h3>Training</h3><p>Geräte & Hilfsmittel</p></div>
-    <div class="card"><h3>Teamsport</h3><p>Alles für Gruppen & Clubs</p></div>
-  </div>
+  <section class="categories">
+    <div class="category">👶 Kinder</div>
+    <div class="category">🛡 Schutzausrüstung</div>
+    <div class="category">👕 Trikots</div>
+    <div class="category">🎒 Accessories</div>
+    <div class="category">🏆 Profis</div>
+    <div class="category">⚽ Anfänger</div>
+  </section>
 
-  <!-- KI-BEREICH -->
-  <div class="ki-box">
-    <div class="arrow">⬇️</div>
-    <input type="text" id="query" placeholder="例: 8歳の息子に合う野球グlove">
-    <button onclick="addResponse()">提案して！</button>
-  </div>
-
-  <!-- Dynamisch wachsende Antwortfläche -->
-  <div class="response-area" id="response-area">
-    <!-- Neue Inhalte erscheinen hier -->
-  </div>
-
-  <footer>
-    &copy; 2025 GetSporty Japan – あなたのスタイル、あなたのスポーツ。
-  </footer>
-
-  <script>
-    function addResponse() {
-      const input = document.getElementById('query');
-      const text = input.value.trim();
-      if (!text) return;
-
-      const area = document.getElementById('response-area');
-      const newBlock = document.createElement('div');
-      newBlock.style.margin = "1.5rem auto";
-      newBlock.style.padding = "1rem";
-      newBlock.style.background = "#f9f9f9";
-      newBlock.style.border = "1px solid #ddd";
-      newBlock.style.borderRadius = "8px";
-      newBlock.innerText = `🧠 KI sagt: Für "${text}" empfehlen wir demnächst ein passendes Set... 🚀`;
-      area.appendChild(newBlock);
-
-      input.value = "";
-      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-    }
-  </script>
+  <section class="ki-section">
+    <h2>Lass mich dir dein Sport-Set zusammenstellen</h2>
+    <input type="text" placeholder="Welche Sportart interessiert dich?" />
+    <div class="arrow">↓</div>
+  </section>
 
 </body>
 </html>
