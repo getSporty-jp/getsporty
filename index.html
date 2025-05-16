@@ -12,10 +12,18 @@
       margin: 0;
       background: #ffffff;
       color: #333;
-      background-image: url('https://i.imgur.com/D9gMu6F.png'); /* Sakura-Baum minimalistisch */
-      background-repeat: no-repeat;
-      background-position: bottom right;
-      background-size: 500px;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    .background {
+      position: fixed;
+      bottom: 0;
+      right: 0;
+      width: 400px;
+      height: 400px;
+      opacity: 0.2;
+      z-index: -1;
     }
 
     header {
@@ -108,14 +116,31 @@
     }
 
     @media (max-width: 768px) {
-      body {
-        background-size: 300px;
-        background-position: bottom center;
+      .background {
+        width: 250px;
+        height: 250px;
+        bottom: -20px;
       }
     }
   </style>
 </head>
 <body>
+
+  <!-- 🌸 Minimalistischer Sakura-Baum -->
+  <div class="background">
+    <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <g fill="none" stroke="#BA6C6C" stroke-width="5" stroke-linecap="round">
+        <path d="M100 200 C90 120, 80 100, 100 60 C120 20, 130 50, 110 80 C130 60, 140 100, 130 120" />
+      </g>
+      <g fill="#FADADD">
+        <circle cx="110" cy="50" r="5"/>
+        <circle cx="115" cy="65" r="4"/>
+        <circle cx="125" cy="100" r="5"/>
+        <circle cx="130" cy="80" r="3"/>
+        <circle cx="95" cy="65" r="4"/>
+      </g>
+    </svg>
+  </div>
 
   <header>
     <h1>GetSporty Japan</h1>
