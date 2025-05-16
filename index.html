@@ -1,220 +1,159 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="de">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>GetSporty - Japan Style</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Slicer-Button mit Bildrotation</title>
   <style>
     body {
       margin: 0;
-      font-family: "Arial", sans-serif;
-      background: #f4f4f4;
-      overflow-x: hidden;
-    }
-
-    header {
-      position: relative;
-      height: 300px;
-      background: #fff;
-      overflow: hidden;
-      border-bottom: 2px solid #eee;
-    }
-
-    .slideshow {
-      display: flex;
-      height: 100%;
-      width: 600%;
-      animation: slide 60s infinite linear;
-    }
-
-    .slide {
-      flex: 1 0 100%;
+      padding: 0;
+      background-color: #111;
       display: flex;
       justify-content: center;
       align-items: center;
-      background-color: #fff;
+      height: 100vh;
+      overflow: hidden;
     }
 
-    .slide img {
-      height: 150px;
-      width: 150px;
-      object-fit: contain;
-      opacity: 0.9;
+    .background-image {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      z-index: -2;
+      transition: opacity 1s ease-in-out;
     }
 
-    svg.icon {
-      height: 150px;
-      width: 150px;
-      stroke: #d42b63;
-      stroke-width: 3;
-      fill: none;
-      opacity: 0.85;
+    /* Dein Button-Style */
+    .btn-17,
+    .btn-17 *,
+    .btn-17 :after,
+    .btn-17 :before,
+    .btn-17:after,
+    .btn-17:before {
+      border: 0 solid;
+      box-sizing: border-box;
     }
 
-    @keyframes slide {
-      0% { transform: translateX(0%); }
-      16% { transform: translateX(-100%); }
-      32% { transform: translateX(-200%); }
-      48% { transform: translateX(-300%); }
-      64% { transform: translateX(-400%); }
-      80% { transform: translateX(-500%); }
-      100% { transform: translateX(0%); }
-    }
-
-    .logo {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 2.5rem;
-      font-weight: bold;
-      color: #d42b63;
-      z-index: 2;
-      background: rgba(255,255,255,0.8);
-      padding: 10px 25px;
-      border-radius: 12px;
-      user-select: none;
-      font-family: "Yu Gothic", "Arial", sans-serif;
-    }
-
-    .categories {
-      display: flex;
-      justify-content: space-around;
-      padding: 2rem;
-      background: #fff;
-      border-bottom: 2px solid #eee;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
-
-    .category {
-      font-size: 1.1rem;
-      color: #333;
-      font-weight: 600;
-      padding: 8px 15px;
-      border-radius: 12px;
-      background: #ffe6f0;
-      box-shadow: 0 2px 6px rgba(212,43,99,0.3);
+    .btn-17 {
+      -webkit-tap-highlight-color: transparent;
+      -webkit-appearance: button;
+      background-color: #000;
+      background-image: none;
+      color: #fff;
       cursor: pointer;
-      user-select: none;
-      min-width: 110px;
-      text-align: center;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+        Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif,
+        Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+      font-size: 100%;
+      font-weight: 900;
+      line-height: 1.5;
+      margin: 0;
+      -webkit-mask-image: -webkit-radial-gradient(#000, #fff);
+      padding: 0;
+      text-transform: uppercase;
+      border-radius: 99rem;
+      border-width: 2px;
+      padding: 0.8rem 3rem;
+      z-index: 1;
+      position: relative;
+      overflow: hidden;
     }
 
-    .ki-section {
-      padding: 3rem 2rem;
-      text-align: center;
-      background: linear-gradient(to bottom, #fff 0%, #f9f9f9 100%);
+    .btn-17 .text-container {
+      display: block;
+      mix-blend-mode: difference;
+      position: relative;
+      z-index: 2;
     }
 
-    .ki-section h2 {
-      color: #d42b63;
-      font-family: "Yu Gothic", "Arial", sans-serif;
-      margin-bottom: 1rem;
+    .btn-17 .text {
+      display: block;
+      position: relative;
     }
 
-    .ki-section input {
-      width: 60%;
-      max-width: 400px;
-      padding: 1rem;
-      font-size: 1.1rem;
-      border: 2px solid #d42b63;
-      border-radius: 6px;
-      outline-offset: 2px;
+    .btn-17:hover .text {
+      animation: move-up-alternate 0.3s forwards;
     }
 
-    .arrow {
-      font-size: 3rem;
-      color: #d42b63;
-      margin-top: 1rem;
-      animation: bounce 2s infinite;
-      user-select: none;
+    @keyframes move-up-alternate {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(80%); }
+      51% { transform: translateY(-80%); }
+      100% { transform: translateY(0); }
     }
 
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(10px); }
+    .btn-17:after,
+    .btn-17:before {
+      --skew: 0.2;
+      background: #fff;
+      content: "";
+      display: block;
+      height: 102%;
+      left: calc(-50% - 50% * var(--skew));
+      pointer-events: none;
+      position: absolute;
+      top: -104%;
+      transform: skew(calc(150deg * var(--skew))) translateY(var(--progress, 0));
+      transition: transform 0.2s ease;
+      width: 100%;
+      z-index: 0;
     }
 
-    /* Responsive */
-    @media (max-width: 600px) {
-      .categories {
-        justify-content: center;
-      }
-      .ki-section input {
-        width: 90%;
-      }
+    .btn-17:after {
+      --progress: 0%;
+      left: calc(50% + 50% * var(--skew));
+      top: 102%;
+      z-index: 0;
+    }
+
+    .btn-17:hover:before {
+      --progress: 100%;
+    }
+
+    .btn-17:hover:after {
+      --progress: -102%;
     }
   </style>
 </head>
 <body>
 
-  <header>
-    <div class="slideshow" aria-label="Sportarten Slideshow">
-      <!-- Bild: Baseball -->
-      <div class="slide" aria-label="Baseball Bild">
-        <img src="baseball-stadium.png" alt="Baseball Icon" />
-      </div>
-      <!-- Football -->
-      <div class="slide" aria-label="Football">
-        <svg class="icon" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <ellipse cx="32" cy="32" rx="28" ry="18" />
-          <line x1="16" y1="32" x2="48" y2="32" />
-          <line x1="24" y1="22" x2="40" y2="42" />
-          <line x1="24" y1="42" x2="40" y2="22" />
-        </svg>
-      </div>
-      <!-- Tischtennis -->
-      <div class="slide" aria-label="Tischtennis">
-        <svg class="icon" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <circle cx="20" cy="32" r="10" />
-          <rect x="28" y="28" width="20" height="8" rx="4" ry="4" />
-          <line x1="48" y1="36" x2="56" y2="28" />
-        </svg>
-      </div>
-      <!-- Basketball -->
-      <div class="slide" aria-label="Basketball">
-        <svg class="icon" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <circle cx="32" cy="32" r="28" />
-          <path d="M32 4 L32 60 M4 32 L60 32" />
-          <path d="M12 12 L52 52 M12 52 L52 12" />
-        </svg>
-      </div>
-      <!-- Karate -->
-      <div class="slide" aria-label="Karate">
-        <svg class="icon" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <rect x="20" y="10" width="24" height="44" rx="12" ry="12" />
-          <circle cx="32" cy="32" r="10" />
-          <line x1="32" y1="10" x2="32" y2="54" />
-        </svg>
-      </div>
-      <!-- Judo -->
-      <div class="slide" aria-label="Judo">
-        <svg class="icon" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <circle cx="24" cy="24" r="10" />
-          <circle cx="40" cy="40" r="12" />
-          <line x1="30" y1="30" x2="40" y2="40" />
-          <line x1="24" y1="24" x2="34" y2="34" />
-        </svg>
-      </div>
-    </div>
-    <div class="logo" aria-label="GetSporty Logo">GetSporty</div>
-  </header>
+  <!-- Hintergrundbild -->
+  <img class="background-image" id="bgImage" src="baseball-icon.jpeg" alt="Hintergrundbild">
 
-  <section class="categories" aria-label="Produktkategorien">
-    <div class="category">Kinder</div>
-    <div class="category">Schutzausrüstung</div>
-    <div class="category">Trikots</div>
-    <div class="category">Accessories</div>
-    <div class="category">Profis</div>
-    <div class="category">Anfänger</div>
-  </section>
+  <!-- Button -->
+  <button class="btn-17">
+    <span class="text-container">
+      <span class="text">Los geht's</span>
+    </span>
+  </button>
 
-  <section class="ki-section" aria-label="KI Eingabe">
-    <h2>Lass mich dir dein Sport-Set zusammenstellen</h2>
-    <input type="text" placeholder="Welche Sportart interessiert dich?" aria-label="Sportart eingeben" />
-    <div class="arrow" aria-hidden="true">↓</div>
-  </section>
+  <script>
+    const images = [
+      "baseball-icon.jpeg",
+      "basketball-icon.jpeg",
+      "football-icon.jpeg"
+    ];
+
+    let index = 0;
+    const bg = document.getElementById("bgImage");
+
+    setInterval(() => {
+      index = (index + 1) % images.length;
+      const nextImage = images[index];
+
+      // Für sanften Übergang
+      bg.style.opacity = 0;
+
+      setTimeout(() => {
+        bg.src = nextImage;
+        bg.style.opacity = 1;
+      }, 500); // Zeit für Fade-Out
+    }, 5000); // Alle 5 Sekunden wechseln
+  </script>
 
 </body>
 </html>
