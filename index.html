@@ -185,7 +185,7 @@
   </nav>
 
   <section class="slideshow-container" aria-label="Slideshow mit Sportbildern">
-    <div class="slide active" tabindex="0" role="button" aria-pressed="false" aria-label="Baseball">
+    <div class="slide active" tabindex="0" role="button" aria-pressed="true" aria-label="Baseball">
       <img src="slide1.jpg" alt="Baseball" />
     </div>
     <div class="slide" tabindex="0" role="button" aria-pressed="false" aria-label="Basketball">
@@ -221,7 +221,7 @@
 
     setInterval(nextSlide, slideInterval);
 
-    // Button Funktion (als Beispiel)
+    // Interaktive Buttons auf den Slides
     slides.forEach((slide, idx) => {
       slide.addEventListener("click", () => {
         alert(`Button für Bild ${idx + 1} wurde geklickt.`);
