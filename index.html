@@ -1,179 +1,334 @@
 <!DOCTYPE html>
-
 <html lang="de">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Sport Slideshow</title>
   <style>
+    /* --- Variablen für Hell-/Dunkelmodus --- */
+    :root {
+      --bg-color: #121212;
+      --text-color: #eee;
+      --primary-color: #f0a500;
+      --secondary-bg: #222;
+      --container-bg: #000;
+      --chatbox-bg: #222;
+      --chatbox-text: #eee;
+      --button-bg: #f0a500;
+      --button-hover-bg: #cf8500;
+      --nav-bg: #222;
+      --nav-border: #f0a500;
+      --nav-color: #f0a500;
+      --header-color: #f0a500;
+      --topbar-bg: #777777;
+    }
+    body.light {
+      --bg-color: #fefefe;
+      --text-color: #121212;
+      --primary-color: #f0a500;
+      --secondary-bg: #ddd;
+      --container-bg: #fff;
+      --chatbox-bg: #eee;
+      --chatbox-text: #121212;
+      --button-bg: #f0a500;
+      --button-hover-bg: #cf8500;
+      --nav-bg: #eee;
+      --nav-border: #f0a500;
+      --nav-color: #f0a500;
+      --header-color: #f0a500;
+      --topbar-bg: #cccccc;
+    }
+
     /* Grundlayout */
     body {
       margin: 0;
       font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #121212;
-      color: #eee;
+      background-color: var(--bg-color);
+      color: var(--text-color);
       display: flex;
       flex-direction: column;
       min-height: 100vh;
       align-items: center;
       padding: 20px;
+      transition: background-color 0.3s, color 0.3s;
     }
 
-```
-header {
-  text-align: center;
-  margin-bottom: 20px;
-}
+    /* Obere Leiste (Topbar) */
+    .topbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 40px;
+      background-color: var(--topbar-bg);
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      padding: 0 20px;
+      box-sizing: border-box;
+      z-index: 1000;
+    }
 
-header img {
-  max-width: 180px;
-  height: auto;
-  margin-bottom: 10px;
-}
+    /* Blob Button Styles */
+    .blob-btn {
+      position: relative;
+      color: var(--bg-color);
+      background-color: var(--button-bg);
+      border: none;
+      padding: 12px 24px;
+      font-weight: 700;
+      font-size: 1rem;
+      border-radius: 30px;
+      cursor: pointer;
+      overflow: hidden;
+      filter: url("#goo");
+      user-select: none;
+      transition: background-color 0.3s, color 0.3s;
+      outline-offset: 2px;
+      outline-color: var(--primary-color);
+    }
+    .blob-btn:hover {
+      background-color: var(--button-hover-bg);
+      color: var(--bg-color);
+    }
+    .blob-btn__inner {
+      position: relative;
+      z-index: 2;
+    }
+    .blob-btn__blobs {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+    .blob-btn__blob {
+      position: absolute;
+      background-color: var(--button-bg);
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      opacity: 0.6;
+      animation: blobMove 4s infinite ease-in-out;
+    }
+    .blob-btn__blob:nth-child(1) {
+      top: -10px;
+      left: 10%;
+      animation-delay: 0s;
+    }
+    .blob-btn__blob:nth-child(2) {
+      top: -10px;
+      left: 50%;
+      animation-delay: 1s;
+    }
+    .blob-btn__blob:nth-child(3) {
+      top: 10px;
+      left: 80%;
+      animation-delay: 2s;
+    }
+    .blob-btn__blob:nth-child(4) {
+      top: 20px;
+      left: 40%;
+      animation-delay: 3s;
+    }
 
-header h1 {
-  font-weight: 700;
-  font-size: 1.5rem;
-  letter-spacing: 0.05em;
-  margin: 0;
-  color: #f0a500;
-}
+    @keyframes blobMove {
+      0%, 100% {
+        transform: translate(0, 0) scale(1);
+        opacity: 0.6;
+      }
+      50% {
+        transform: translate(10px, 10px) scale(1.2);
+        opacity: 0.3;
+      }
+    }
 
-/* Kategorien unter Header */
-nav {
-  display: flex;
-  gap: 24px;
-  justify-content: center;
-  margin-bottom: 30px;
-  flex-wrap: wrap;
-}
+    /* Header */
+    header {
+      text-align: center;
+      margin-bottom: 20px;
+      margin-top: 60px; /* Abstand wg Topbar */
+    }
 
-nav button {
-  background: #222;
-  border: 2px solid #f0a500;
-  color: #f0a500;
-  padding: 10px 18px;
-  font-weight: 600;
-  font-size: 1rem;
-  border-radius: 30px;
-  cursor: pointer;
-  transition: background-color 0.3s, color 0.3s;
-}
+    header img {
+      max-width: 180px;
+      height: auto;
+      margin-bottom: 10px;
+    }
 
-nav button:hover {
-  background-color: #f0a500;
-  color: #121212;
-}
+    header h1 {
+      font-weight: 700;
+      font-size: 1.5rem;
+      letter-spacing: 0.05em;
+      margin: 0;
+      color: var(--header-color);
+      transition: color 0.3s;
+    }
 
-/* Slideshow-Container */
-.slideshow-container {
-  position: relative;
-  width: 100%;
-  max-width: 900px;
-  height: 60vh;
-  max-height: 500px;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0 5%;
-  background-color: #000;
-  border-radius: 15px;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.7);
-  margin-bottom: 40px;
-}
+    /* Kategorien unter Header */
+    nav {
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+      background-color: var(--nav-bg);
+      padding: 10px 20px;
+      border-radius: 30px;
+      box-sizing: border-box;
+    }
 
-/* einzelne Slide */
-.slide {
-  position: absolute;
-  opacity: 0;
-  transition: opacity 1s ease-in-out;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-}
+    nav button {
+      background: var(--nav-bg);
+      border: 2px solid var(--nav-border);
+      color: var(--nav-color);
+      padding: 10px 18px;
+      font-weight: 600;
+      font-size: 1rem;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s;
+    }
 
-.slide.active {
-  opacity: 1;
-  position: relative;
-  z-index: 2;
-}
+    nav button:hover {
+      background-color: var(--primary-color);
+      color: var(--bg-color);
+    }
 
-.slide img {
-  max-width: 90%;
-  max-height: 100%;
-  object-fit: contain;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.6);
-  user-select: none;
-  -webkit-user-drag: none;
-}
+    /* Slideshow-Container */
+    .slideshow-container {
+      position: relative;
+      width: 100%;
+      max-width: 900px;
+      height: 60vh;
+      max-height: 500px;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 0 5%;
+      background-color: var(--container-bg);
+      border-radius: 15px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.7);
+      margin-bottom: 40px;
+      transition: background-color 0.3s;
+    }
 
-/* Chatbox unten */
-.chatbox {
-  width: 100%;
-  max-width: 900px;
-  background: #222;
-  border-radius: 15px;
-  padding: 20px;
-  box-shadow: 0 4px 18px rgba(0,0,0,0.7);
-  color: #eee;
-  font-size: 1rem;
-}
+    /* einzelne Slide */
+    .slide {
+      position: absolute;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+    }
 
-.chatbox textarea {
-  width: 100%;
-  height: 120px;
-  border-radius: 10px;
-  border: none;
-  resize: none;
-  padding: 12px;
-  font-size: 1rem;
-  background: #121212;
-  color: #eee;
-  outline: none;
-  box-sizing: border-box;
-}
+    .slide.active {
+      opacity: 1;
+      position: relative;
+      z-index: 2;
+    }
 
-.chatbox button {
-  margin-top: 10px;
-  background-color: #f0a500;
-  border: none;
-  padding: 12px 24px;
-  font-weight: 700;
-  font-size: 1rem;
-  border-radius: 30px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  color: #121212;
-}
+    .slide img {
+      max-width: 90%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+      user-select: none;
+      -webkit-user-drag: none;
+      transition: filter 0.3s;
+    }
 
-.chatbox button:hover {
-  background-color: #cf8500;
-}
+    /* Chatbox unten */
+    .chatbox {
+      width: 100%;
+      max-width: 900px;
+      background: var(--chatbox-bg);
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.7);
+      color: var(--chatbox-text);
+      font-size: 1rem;
+      transition: background-color 0.3s, color 0.3s;
+    }
 
-/* Responsive */
-@media (max-width: 600px) {
-  nav {
-    gap: 12px;
-  }
-  nav button {
-    padding: 8px 14px;
-    font-size: 0.9rem;
-  }
-  .slideshow-container {
-    height: 40vh;
-    max-height: 300px;
-  }
-}
-```
+    .chatbox textarea {
+      width: 100%;
+      height: 120px;
+      border-radius: 10px;
+      border: none;
+      resize: none;
+      padding: 12px;
+      font-size: 1rem;
+      background: var(--bg-color);
+      color: var(--text-color);
+      outline: none;
+      box-sizing: border-box;
+      transition: background-color 0.3s, color 0.3s;
+    }
 
+    .chatbox button {
+      margin-top: 10px;
+      background-color: var(--button-bg);
+      border: none;
+      padding: 12px 24px;
+      font-weight: 700;
+      font-size: 1rem;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      color: var(--bg-color);
+    }
+
+    .chatbox button:hover {
+      background-color: var(--button-hover-bg);
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      nav {
+        gap: 12px;
+      }
+      nav button {
+        padding: 8px 14px;
+        font-size: 0.9rem;
+      }
+      .slideshow-container {
+        height: 40vh;
+        max-height: 300px;
+      }
+      .topbar {
+        height: 35px;
+        padding: 0 12px;
+      }
+      .blob-btn {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+      }
+    }
   </style>
 </head>
 <body>
+  <div class="topbar" role="region" aria-label="Obere Leiste mit Dunkelmodus Schalter">
+    <button class="blob-btn" id="toggle-theme" aria-pressed="false" aria-label="Hell-Dunkel Modus wechseln">
+      Modus wechseln
+      <span class="blob-btn__inner">
+        <span class="blob-btn__blobs">
+          <span class="blob-btn__blob"></span>
+          <span class="blob-btn__blob"></span>
+          <span class="blob-btn__blob"></span>
+          <span class="blob-btn__blob"></span>
+        </span>
+      </span>
+    </button>
+  </div>
+
   <header>
     <img src="images/logo.png" alt="Logo" />
     <h1>Players are made not born, get ready!</h1>
@@ -203,6 +358,16 @@ nav button:hover {
     <textarea placeholder="Schreibe hier deine Nachricht..."></textarea>
     <button type="button">Absenden</button>
   </section>
+
+  <svg xmlns="http://www.w3.org/2000/svg" version="1.1" style="display:none;">
+    <defs>
+      <filter id="goo">
+        <feGaussianBlur in="SourceGraphic" result="blur" stdDeviation="10"></feGaussianBlur>
+        <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 21 -7" result="goo"></feColorMatrix>
+        <feBlend in2="goo" in="SourceGraphic" result="mix"></feBlend>
+      </filter>
+    </defs>
+  </svg>
 
   <script>
     // Slideshow Wechsel
@@ -236,7 +401,14 @@ nav button:hover {
         }
       });
     });
-  </script>
 
+    // Dark/Light Mode Toggle
+    const toggleBtn = document.getElementById("toggle-theme");
+    toggleBtn.addEventListener("click", () => {
+      document.body.classList.toggle("light");
+      const isLight = document.body.classList.contains("light");
+      toggleBtn.setAttribute("aria-pressed", isLight ? "true" : "false");
+    });
+  </script>
 </body>
 </html>
