@@ -1,89 +1,414 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <title>SVG Shine Effekt</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sport Slideshow</title>
   <style>
+    /* --- Variablen für Hell-/Dunkelmodus --- */
+    :root {
+      --bg-color: #121212;
+      --text-color: #eee;
+      --primary-color: #f0a500;
+      --secondary-bg: #222;
+      --container-bg: #000;
+      --chatbox-bg: #222;
+      --chatbox-text: #eee;
+      --button-bg: #f0a500;
+      --button-hover-bg: #cf8500;
+      --nav-bg: #222;
+      --nav-border: #f0a500;
+      --nav-color: #f0a500;
+      --header-color: #f0a500;
+      --topbar-bg: #777777;
+    }
+    body.light {
+      --bg-color: #fefefe;
+      --text-color: #121212;
+      --primary-color: #f0a500;
+      --secondary-bg: #ddd;
+      --container-bg: #fff;
+      --chatbox-bg: #eee;
+      --chatbox-text: #121212;
+      --button-bg: #f0a500;
+      --button-hover-bg: #cf8500;
+      --nav-bg: #eee;
+      --nav-border: #f0a500;
+      --nav-color: #f0a500;
+      --header-color: #f0a500;
+      --topbar-bg: #cccccc;
+    }
+
+    /* Grundlayout */
     body {
-      background: #111;
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      align-items: center;
+      padding: 20px;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    /* Obere Leiste (Topbar) */
+    .topbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 40px;
+      background-color: var(--topbar-bg);
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      padding: 0 20px;
+      box-sizing: border-box;
+      z-index: 1000;
+    }
+
+    /* Blob Button Styles */
+    .blob-btn {
+      position: relative;
+      color: var(--bg-color);
+      background-color: var(--button-bg);
+      border: none;
+      padding: 12px 24px;
+      font-weight: 700;
+      font-size: 1rem;
+      border-radius: 30px;
+      cursor: pointer;
+      overflow: hidden;
+      filter: url("#goo");
+      user-select: none;
+      transition: background-color 0.3s, color 0.3s;
+      outline-offset: 2px;
+      outline-color: var(--primary-color);
+    }
+    .blob-btn:hover {
+      background-color: var(--button-hover-bg);
+      color: var(--bg-color);
+    }
+    .blob-btn__inner {
+      position: relative;
+      z-index: 2;
+    }
+    .blob-btn__blobs {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+    .blob-btn__blob {
+      position: absolute;
+      background-color: var(--button-bg);
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      opacity: 0.6;
+      animation: blobMove 4s infinite ease-in-out;
+    }
+    .blob-btn__blob:nth-child(1) {
+      top: -10px;
+      left: 10%;
+      animation-delay: 0s;
+    }
+    .blob-btn__blob:nth-child(2) {
+      top: -10px;
+      left: 50%;
+      animation-delay: 1s;
+    }
+    .blob-btn__blob:nth-child(3) {
+      top: 10px;
+      left: 80%;
+      animation-delay: 2s;
+    }
+    .blob-btn__blob:nth-child(4) {
+      top: 20px;
+      left: 40%;
+      animation-delay: 3s;
+    }
+
+    @keyframes blobMove {
+      0%, 100% {
+        transform: translate(0, 0) scale(1);
+        opacity: 0.6;
+      }
+      50% {
+        transform: translate(10px, 10px) scale(1.2);
+        opacity: 0.3;
+      }
+    }
+
+    /* Header */
+    header {
+      text-align: center;
+      margin-bottom: 20px;
+      margin-top: 60px; /* Abstand wg Topbar */
+    }
+
+    header img {
+      max-width: 180px;
+      height: auto;
+      margin-bottom: 10px;
+    }
+
+    header h1 {
+      font-weight: 700;
+      font-size: 1.5rem;
+      letter-spacing: 0.05em;
+      margin: 0;
+      color: var(--header-color);
+      transition: color 0.3s;
+    }
+
+    /* Kategorien unter Header */
+    nav {
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+      background-color: var(--nav-bg);
+      padding: 10px 20px;
+      border-radius: 30px;
+      box-sizing: border-box;
+    }
+
+    nav button {
+      background: var(--nav-bg);
+      border: 2px solid var(--nav-border);
+      color: var(--nav-color);
+      padding: 10px 18px;
+      font-weight: 600;
+      font-size: 1rem;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    nav button:hover {
+      background-color: var(--primary-color);
+      color: var(--bg-color);
+    }
+
+    /* Slideshow-Container */
+    .slideshow-container {
+      position: relative;
+      width: 100%;
+      max-width: 900px;
+      height: 60vh;
+      max-height: 500px;
+      overflow: hidden;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
-      margin: 0;
+      padding: 0 5%;
+      background-color: var(--container-bg);
+      border-radius: 15px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.7);
+      margin-bottom: 40px;
+      transition: background-color 0.3s;
     }
 
-    .shine-button {
-      position: relative;
-      display: inline-block;
-      border: none;
-      background: none;
-      padding: 0;
-      cursor: pointer;
-      overflow: hidden;
-    }
-
-    .shine-button svg {
-      width: 200px;
-      height: 200px;
-    }
-
-    .shine-button::after {
-      content: '';
+    /* einzelne Slide */
+    .slide {
       position: absolute;
-      top: 0;
-      left: -75%;
-      width: 50%;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+      width: 100%;
       height: 100%;
-      background: linear-gradient(
-        120deg,
-        rgba(255, 255, 255, 0) 0%,
-        rgba(255, 255, 255, 0.4) 50%,
-        rgba(255, 255, 255, 0) 100%
-      );
-      transform: skewX(-20deg);
-      pointer-events: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
     }
 
-    .shine-button.animate::after {
-      animation: shine 1s ease-in-out;
+    .slide.active {
+      opacity: 1;
+      position: relative;
+      z-index: 2;
     }
 
-    @keyframes shine {
-      0% {
-        left: -75%;
+    .slide img {
+      max-width: 90%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+      user-select: none;
+      -webkit-user-drag: none;
+      transition: filter 0.3s;
+    }
+
+    /* Chatbox unten */
+    .chatbox {
+      width: 100%;
+      max-width: 900px;
+      background: var(--chatbox-bg);
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.7);
+      color: var(--chatbox-text);
+      font-size: 1rem;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .chatbox textarea {
+      width: 100%;
+      height: 120px;
+      border-radius: 10px;
+      border: none;
+      resize: none;
+      padding: 12px;
+      font-size: 1rem;
+      background: var(--bg-color);
+      color: var(--text-color);
+      outline: none;
+      box-sizing: border-box;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .chatbox button {
+      margin-top: 10px;
+      background-color: var(--button-bg);
+      border: none;
+      padding: 12px 24px;
+      font-weight: 700;
+      font-size: 1rem;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      color: var(--bg-color);
+    }
+
+    .chatbox button:hover {
+      background-color: var(--button-hover-bg);
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      nav {
+        gap: 12px;
       }
-      100% {
-        left: 125%;
+      nav button {
+        padding: 8px 14px;
+        font-size: 0.9rem;
+      }
+      .slideshow-container {
+        height: 40vh;
+        max-height: 300px;
+      }
+      .topbar {
+        height: 35px;
+        padding: 0 12px;
+      }
+      .blob-btn {
+        padding: 8px 16px;
+        font-size: 0.9rem;
       }
     }
   </style>
 </head>
 <body>
+  <div class="topbar" role="region" aria-label="Obere Leiste mit Dunkelmodus Schalter">
+    <button class="blob-btn" id="toggle-theme" aria-pressed="false" aria-label="Hell-Dunkel Modus wechseln">
+      Modus wechseln
+      <span class="blob-btn__inner">
+        <span class="blob-btn__blobs">
+          <span class="blob-btn__blob"></span>
+          <span class="blob-btn__blob"></span>
+          <span class="blob-btn__blob"></span>
+          <span class="blob-btn__blob"></span>
+        </span>
+      </span>
+    </button>
+  </div>
 
-  <button class="shine-button" aria-label="Logo mit Shine-Effekt">
-    <!-- Beispiel-SVG: Ersetze es durch dein eigenes SVG -->
-    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="50" cy="50" r="40" fill="#4FC3F7" />
-      <text x="50" y="55" text-anchor="middle" fill="#fff" font-size="20" font-family="Arial">LOGO</text>
-    </svg>
-  </button>
+  <header>
+    <img src="images/logo.png" alt="Logo" />
+    <h1>Players are made not born, get ready!</h1>
+  </header>
+
+  <nav>
+    <button>Schutzausrüstung</button>
+    <button>Kinder</button>
+    <button>Trainingsgeräte</button>
+    <button>Bekleidung</button>
+    <button>Ernährung</button>
+  </nav>
+
+  <section class="slideshow-container" aria-label="Slideshow mit Sportbildern">
+    <div class="slide active" tabindex="0" role="button" aria-pressed="true" aria-label="Baseball">
+      <img src="images/slide1.jpg" alt="Baseball" />
+    </div>
+    <div class="slide" tabindex="0" role="button" aria-pressed="false" aria-label="Basketball">
+      <img src="images/slide2.jpg" alt="Basketball" />
+    </div>
+    <div class="slide" tabindex="0" role="button" aria-pressed="false" aria-label="Football">
+      <img src="images/slide3.jpg" alt="Football" />
+    </div>
+  </section>
+
+  <section class="chatbox" aria-label="Chatbox">
+    <textarea placeholder="Schreibe hier deine Nachricht..."></textarea>
+    <button type="button">Absenden</button>
+  </section>
+
+  <svg xmlns="http://www.w3.org/2000/svg" version="1.1" style="display:none;">
+    <defs>
+      <filter id="goo">
+        <feGaussianBlur in="SourceGraphic" result="blur" stdDeviation="10"></feGaussianBlur>
+        <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 21 -7" result="goo"></feColorMatrix>
+        <feBlend in2="goo" in="SourceGraphic" result="mix"></feBlend>
+      </filter>
+    </defs>
+  </svg>
 
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const shineButton = document.querySelector('.shine-button');
+    // Slideshow Wechsel
+    const slides = document.querySelectorAll(".slide");
+    let current = 0;
+    const slideInterval = 5000; // 5 Sekunden
 
-      // Effekt beim Laden
-      shineButton.classList.add('animate');
+    function showSlide(index) {
+      slides.forEach((slide, i) => {
+        slide.classList.toggle("active", i === index);
+        slide.setAttribute("aria-pressed", i === index ? "true" : "false");
+      });
+    }
 
-      // Effekt beim Klicken
-      shineButton.addEventListener('click', () => {
-        shineButton.classList.remove('animate');
-        void shineButton.offsetWidth; // Reflow zur Neuauslösung
-        shineButton.classList.add('animate');
+    function nextSlide() {
+      current = (current + 1) % slides.length;
+      showSlide(current);
+    }
+
+    setInterval(nextSlide, slideInterval);
+
+    // Interaktive Buttons auf den Slides
+    slides.forEach((slide, idx) => {
+      slide.addEventListener("click", () => {
+        alert(Button für Bild ${idx + 1} wurde geklickt.);
+      });
+      slide.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          slide.click();
+        }
       });
     });
-  </script>
 
+    // Dark/Light Mode Toggle
+    const toggleBtn = document.getElementById("toggle-theme");
+    toggleBtn.addEventListener("click", () => {
+      document.body.classList.toggle("light");
+      const isLight = document.body.classList.contains("light");
+      toggleBtn.setAttribute("aria-pressed", isLight ? "true" : "false");
+    });
+  </script>
 </body>
 </html>
