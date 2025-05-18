@@ -2,220 +2,200 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8" />
-  <title>Website mit glänzendem Logo-Button</title>
+  <title>Meine Webseite</title>
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
+    :root {
+      --indigo-dark: #12307C;
+      --indigo-mid: #3459B1;
+      --indigo-light: #8C9ED6;
+      --light-bg: #d0d0d0;
+      --light-bg-secondary: #e0e0e0;
+      --dark-bg: #121212;
+      --text-color-light: #111;
+      --text-color-dark: #eee;
+    }
+
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
+      font-family: sans-serif;
+      background-color: var(--light-bg);
+      color: var(--text-color-light);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
       transition: background-color 0.3s, color 0.3s;
     }
 
-    body.light {
-      background-color: #e5e5e5; /* Zwei Nuancen dunkleres Hellgrau */
-      color: #111;
-    }
-
     body.dark {
-      background-color: #12307C; /* Indigo Blau */
-      color: white;
+      background-color: var(--dark-bg);
+      color: var(--text-color-dark);
     }
 
     header {
-      background-color: white;
+      background-color: var(--light-bg-secondary);
+      padding: 10px 20px;
       display: flex;
       align-items: center;
-      padding: 10px 20px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
+      justify-content: space-between;
+    }
+
+    body.dark header {
+      background-color: #1e1e1e;
+    }
+
+    .logo-button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      transition: transform 0.2s ease-in-out;
+    }
+
+    .logo-button:hover {
+      animation: shine 0.6s ease-in-out;
+    }
+
+    .logo-button:active {
+      animation: shine 0.6s ease-in-out;
+    }
+
+    .logo-svg {
+      width: 60px;
       height: 60px;
-      z-index: 1000;
+    }
+
+    @keyframes shine {
+      0% {
+        filter: brightness(1);
+      }
+      50% {
+        filter: brightness(2);
+      }
+      100% {
+        filter: brightness(1);
+      }
     }
 
     main {
-      padding: 80px 20px 80px 20px;
-      min-height: calc(100vh - 140px);
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
     }
 
     footer {
       background-color: white;
-      color: #111;
+      color: #333;
       padding: 15px 20px;
       text-align: center;
-      font-size: 0.9rem;
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      box-shadow: 0 -2px 4px rgba(0,0,0,0.1);
+      font-size: 14px;
     }
 
-    /* Button für Modus wechseln */
+    .dark footer {
+      background-color: #f0f0f0;
+      color: #111;
+    }
+
     .toggle-mode {
-      margin-left: auto;
+      cursor: pointer;
       background: none;
-      border: 2px solid #12307C;
-      color: #12307C;
-      padding: 5px 12px;
-      cursor: pointer;
-      border-radius: 4px;
-      font-weight: bold;
-      transition: all 0.3s ease;
-    }
-
-    .toggle-mode:hover {
-      background: #12307C;
-      color: white;
-    }
-
-    /* Logo-Button */
-    .logo-button {
-      width: 50px;
-      height: 50px;
-      border: none;
-      background: transparent;
-      padding: 0;
-      cursor: pointer;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .logo-button svg {
-      width: 100%;
-      height: 100%;
-      display: block;
-    }
-
-    /* Glanz-Effekt */
-    .shine::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -75%;
-      width: 50%;
-      height: 100%;
-      background: linear-gradient(120deg, rgba(255,255,255,0.0) 0%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0.0) 100%);
-      transform: skewX(-20deg);
-      animation: shine 1s ease-in-out;
-    }
-
-    @keyframes shine {
-      from { left: -75%; }
-      to { left: 125%; }
+      border: 1px solid #aaa;
+      padding: 6px 10px;
+      border-radius: 5px;
+      margin-left: auto;
     }
   </style>
 </head>
-<body class="light">
+<body>
 
-<header>
-  <button class="logo-button" id="logoButton">
-    <!-- SVG-Logo ohne Hintergrund -->
-    <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <clipPath id="circle-clip">
-          <circle cx="100" cy="100" r="100" />
-        </clipPath>
-      </defs>
+  <header>
+    <!-- Logo als Button -->
+    <button class="logo-button" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">
+      <svg class="logo-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <clipPath id="circle-clip">
+            <circle cx="100" cy="100" r="100" />
+          </clipPath>
+        </defs>
 
-      <path 
-        d="M0,140
-           Q30,120 70,135
-           Q90,150 120,130
-           Q150,160 180,140
-           Q200,130 200,200
-           L0,200 Z"
-        fill="#12307C"
-        clip-path="url(#circle-clip)"
-      />
-      <path 
-        d="M0,90
-           Q20,70 50,90
-           Q80,110 110,90
-           Q140,120 170,85
-           Q200,100 200,140
-           Q180,150 140,140
-           Q100,130 70,140
-           Q30,130 0,140 Z"
-        fill="#3459B1"
-        clip-path="url(#circle-clip)"
-      />
-      <path 
-        d="M0,0 L0,90
-           Q25,65 55,90
-           Q90,120 130,80
-           Q160,100 200,85
-           L200,0 Z"
-        fill="#8C9ED6"
-        clip-path="url(#circle-clip)"
-      />
-      <path 
-        d="M0,90
-           Q20,60 45,95
-           Q70,130 100,85
-           Q125,120 150,75
-           Q180,110 200,80"
-        fill="none" stroke="white" stroke-width="3" clip-path="url(#circle-clip)"
-      />
-      <path 
-        d="M0,140
-           Q40,125 65,145
-           Q95,160 130,130
-           Q170,170 200,140"
-        fill="none" stroke="white" stroke-width="3" clip-path="url(#circle-clip)"
-      />
-    </svg>
-  </button>
+        <path 
+          d="M0,140
+             Q30,120 70,135
+             Q90,150 120,130
+             Q150,160 180,140
+             Q200,130 200,200
+             L0,200 Z"
+          fill="#12307C"
+          clip-path="url(#circle-clip)"
+        />
 
-  <button class="toggle-mode" id="modeToggle">Dunkelmodus</button>
-</header>
+        <path 
+          d="M0,90
+             Q20,70 50,90
+             Q80,110 110,90
+             Q140,120 170,85
+             Q200,100 200,140
+             Q180,150 140,140
+             Q100,130 70,140
+             Q30,130 0,140 Z"
+          fill="#3459B1"
+          clip-path="url(#circle-clip)"
+        />
 
-<main>
-  <h1>Willkommen auf der Webseite</h1>
-  <p>Hier steht dein Inhalt.</p>
-</main>
+        <path 
+          d="M0,0 L0,90
+             Q25,65 55,90
+             Q90,120 130,80
+             Q160,100 200,85
+             L200,0 Z"
+          fill="#8C9ED6"
+          clip-path="url(#circle-clip)"
+        />
 
-<footer>
-  Impressum | E-Mail: kontakt@example.de | Telefon: 0123-456789
-</footer>
+        <path 
+          d="M0,90
+             Q20,60 45,95
+             Q70,130 100,85
+             Q125,120 150,75
+             Q180,110 200,80"
+          fill="none" stroke="white" stroke-width="3" clip-path="url(#circle-clip)"
+        />
 
-<script>
-  const btn = document.getElementById('modeToggle');
-  const body = document.body;
-  const logoButton = document.getElementById('logoButton');
+        <path 
+          d="M0,140
+             Q40,125 65,145
+             Q95,160 130,130
+             Q170,170 200,140"
+          fill="none" stroke="white" stroke-width="3" clip-path="url(#circle-clip)"
+        />
+      </svg>
+    </button>
 
-  btn.addEventListener('click', () => {
-    if(body.classList.contains('light')) {
-      body.classList.remove('light');
-      body.classList.add('dark');
-      btn.textContent = 'Hellmodus';
-    } else {
-      body.classList.remove('dark');
-      body.classList.add('light');
-      btn.textContent = 'Dunkelmodus';
+    <button class="toggle-mode" onclick="toggleMode()">🌓 Modus wechseln</button>
+  </header>
+
+  <main>
+    <h1>Willkommen auf meiner Seite!</h1>
+  </main>
+
+  <footer>
+    <p>Impressum | Kontakt: <a href="mailto:deine@email.de">deine@email.de</a></p>
+  </footer>
+
+  <script>
+    function toggleMode() {
+      document.body.classList.toggle("dark");
     }
-  });
 
-  function triggerShine(el) {
-    el.classList.add('shine');
-    setTimeout(() => el.classList.remove('shine'), 1000);
-  }
-
-  logoButton.addEventListener('click', () => {
-    triggerShine(logoButton);
-    // z. B. Link zu Startseite oder Animation später
-  });
-
-  logoButton.addEventListener('mouseenter', () => {
-    triggerShine(logoButton);
-  });
-
-  // Initiales Glänzen beim Laden
-  window.addEventListener('load', () => {
-    triggerShine(logoButton);
-  });
-</script>
-
+    // Shine-Animation beim Laden auslösen
+    window.addEventListener("load", () => {
+      const logo = document.querySelector(".logo-button");
+      logo.classList.add("shine-on-load");
+      logo.style.animation = "shine 0.6s ease-in-out";
+    });
+  </script>
 </body>
 </html>
