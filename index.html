@@ -5,9 +5,54 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Sport Slideshow</title>
   <style>
-    /* --- Deine bestehenden Variablen und Styles bleiben erhalten --- */
+    /* --- Deine bisherigen Styles --- */
+    :root {
+      --bg-color: #121212;
+      --text-color: #eee;
+      --primary-color: #f0a500;
+      --secondary-bg: #222;
+      --container-bg: #000;
+      --chatbox-bg: #222;
+      --chatbox-text: #eee;
+      --button-bg: #f0a500;
+      --button-hover-bg: #cf8500;
+      --nav-bg: #222;
+      --nav-border: #f0a500;
+      --nav-color: #f0a500;
+      --header-color: #f0a500;
+      --topbar-bg: #777777;
+    }
+    body.light {
+      --bg-color: #fefefe;
+      --text-color: #121212;
+      --primary-color: #f0a500;
+      --secondary-bg: #ddd;
+      --container-bg: #fff;
+      --chatbox-bg: #eee;
+      --chatbox-text: #121212;
+      --button-bg: #f0a500;
+      --button-hover-bg: #cf8500;
+      --nav-bg: #eee;
+      --nav-border: #f0a500;
+      --nav-color: #f0a500;
+      --header-color: #f0a500;
+      --topbar-bg: #cccccc;
+    }
 
-    /* --- Topbar Grund-Layout --- */
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      align-items: center;
+      padding: 20px;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    /* Topbar */
     .topbar {
       position: fixed;
       top: 0;
@@ -16,84 +61,139 @@
       height: 40px;
       background-color: var(--topbar-bg);
       display: flex;
-      justify-content: space-between; /* Logo links, Modus Button rechts */
+      justify-content: flex-end;
       align-items: center;
       padding: 0 20px;
       box-sizing: border-box;
       z-index: 1000;
     }
 
-    /* --- Neuer Logo Button oben links --- */
+    /* Logo Button Container oben links */
+    .logo-button-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 60px; /* etwas höher als Topbar */
+      width: 60px;
+      padding: 5px;
+      box-sizing: border-box;
+      z-index: 1100;
+    }
+
+    /* Shiny Logo Button */
     .logo-btn {
-      width: 40px;
-      height: 40px;
+      cursor: pointer;
+      border-radius: 50%;
+      width: 100%;
+      height: 100%;
       padding: 0;
-      margin: 0;
       border: none;
       background: none;
-      cursor: pointer;
-      position: relative;
-      border-radius: 50%;
       overflow: visible;
+      position: relative;
       outline-offset: 2px;
       outline-color: var(--primary-color);
-      filter: drop-shadow(0 0 2px rgba(255,255,255,0.7));
       transition: filter 0.3s ease;
+      filter: drop-shadow(0 0 2px var(--primary-color));
+    }
+
+    .logo-btn svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+      border-radius: 50%;
+      user-select: none;
+      pointer-events: none; /* Nur Button soll klicken */
     }
 
     /* Shiny Animation */
-    @keyframes shiny-glow {
+    @keyframes shiny {
       0%, 100% {
-        filter: drop-shadow(0 0 5px #f0a500) drop-shadow(0 0 8px #f0a500);
+        filter: drop-shadow(0 0 2px var(--primary-color));
       }
       50% {
-        filter: drop-shadow(0 0 20px #f0a500) drop-shadow(0 0 30px #f0a500);
+        filter: drop-shadow(0 0 10px var(--primary-color));
       }
     }
 
-    /* Klasse für kurz Shiny Effekt */
-    .shiny {
-      animation: shiny-glow 1.2s ease forwards;
+    /* Wenn active wird die Animation getriggert */
+    .logo-btn.shiny {
+      animation: shiny 1.5s ease-in-out forwards;
     }
 
-    /* SVG im Button */
-    .logo-btn svg {
-      display: block;
-      width: 40px;
-      height: 40px;
-      pointer-events: none; /* Damit Klicks auf Button bleiben */
-    }
-
-    /* Bestehender Modus-Wechsel Button */
-    .blob-btn {
-      /* bleibt unverändert */
-    }
+    /* Deine restlichen Styles (Blob-Button, Header, Slideshow etc.) bleiben unverändert */
+    /* ... hier kommt dein kompletter bisheriger CSS-Code rein ... */
 
   </style>
 </head>
 <body>
-  <div class="topbar" role="region" aria-label="Obere Leiste mit Dunkelmodus Schalter">
-    <!-- Neuer Logo Button -->
-    <button class="logo-btn" id="logo-btn" aria-label="Startseite Logo Button" title="Startseite">
-      <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+
+  <!-- Logo als shiny Button oben links -->
+  <div class="logo-button-container">
+    <button class="logo-btn" id="logoBtn" aria-label="Logo Button">
+      <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true" focusable="false">
         <defs>
           <clipPath id="circle-clip">
             <circle cx="100" cy="100" r="100" />
           </clipPath>
         </defs>
-        <!-- Unteres Segment -->
-        <path d="M0,140 Q30,120 70,135 Q90,150 120,130 Q150,160 180,140 Q200,130 200,200 L0,200 Z" fill="#12307C" clip-path="url(#circle-clip)"/>
-        <!-- Mittleres Segment -->
-        <path d="M0,90 Q20,70 50,90 Q80,110 110,90 Q140,120 170,85 Q200,100 200,140 Q180,150 140,140 Q100,130 70,140 Q30,130 0,140 Z" fill="#3459B1" clip-path="url(#circle-clip)"/>
-        <!-- Oberes Segment -->
-        <path d="M0,0 L0,90 Q25,65 55,90 Q90,120 130,80 Q160,100 200,85 L200,0 Z" fill="#8C9ED6" clip-path="url(#circle-clip)"/>
-        <!-- Weiße Wellenlinien -->
-        <path d="M0,90 Q20,60 45,95 Q70,130 100,85 Q125,120 150,75 Q180,110 200,80" fill="none" stroke="white" stroke-width="3" clip-path="url(#circle-clip)"/>
-        <path d="M0,140 Q40,125 65,145 Q95,160 130,130 Q170,170 200,140" fill="none" stroke="white" stroke-width="3" clip-path="url(#circle-clip)"/>
+
+        <path 
+          d="M0,140
+             Q30,120 70,135
+             Q90,150 120,130
+             Q150,160 180,140
+             Q200,130 200,200
+             L0,200 Z"
+          fill="#12307C"
+          clip-path="url(#circle-clip)"
+        />
+
+        <path 
+          d="M0,90
+             Q20,70 50,90
+             Q80,110 110,90
+             Q140,120 170,85
+             Q200,100 200,140
+             Q180,150 140,140
+             Q100,130 70,140
+             Q30,130 0,140 Z"
+          fill="#3459B1"
+          clip-path="url(#circle-clip)"
+        />
+
+        <path 
+          d="M0,0 L0,90
+             Q25,65 55,90
+             Q90,120 130,80
+             Q160,100 200,85
+             L200,0 Z"
+          fill="#8C9ED6"
+          clip-path="url(#circle-clip)"
+        />
+
+        <path 
+          d="M0,90
+             Q20,60 45,95
+             Q70,130 100,85
+             Q125,120 150,75
+             Q180,110 200,80"
+          fill="none" stroke="white" stroke-width="3" clip-path="url(#circle-clip)"
+        />
+
+        <path 
+          d="M0,140
+             Q40,125 65,145
+             Q95,160 130,130
+             Q170,170 200,140"
+          fill="none" stroke="white" stroke-width="3" clip-path="url(#circle-clip)"
+        />
       </svg>
     </button>
+  </div>
 
-    <!-- Bestehender Modus-Wechsel Button -->
+  <!-- Deine bestehende Topbar -->
+  <div class="topbar" role="region" aria-label="Obere Leiste mit Dunkelmodus Schalter">
     <button class="blob-btn" id="toggle-theme" aria-pressed="false" aria-label="Hell-Dunkel Modus wechseln">
       Modus wechseln
       <span class="blob-btn__inner">
@@ -107,31 +207,34 @@
     </button>
   </div>
 
-  <!-- Rest deiner Seite -->
+  <!-- Rest deiner Seite ... -->
+  <header>
+    <img src="images/logo.png" alt="Logo" />
+    <h1>Players are made...</h1>
+  </header>
 
-  <script>
-    const logoBtn = document.getElementById('logo-btn');
+  <!-- Hier dein kompletter weiterer Content -->
 
-    // Funktion, um die Shiny Animation auszulösen
-    function shine() {
-      logoBtn.classList.add('shiny');
-      // Nach Animation Klasse entfernen, damit es erneut ausgelöst werden kann
-      setTimeout(() => {
-        logoBtn.classList.remove('shiny');
-      }, 1200);
-    }
+<script>
+  // Funktion, um den "shiny"-Effekt beim Laden und beim Klick zu triggern
+  const logoBtn = document.getElementById('logoBtn');
 
-    // Animation beim Laden
-    window.addEventListener('load', () => {
-      shine();
-    });
+  function triggerShiny() {
+    logoBtn.classList.remove('shiny');
+    void logoBtn.offsetWidth; // Reflow zum Neustarten der Animation
+    logoBtn.classList.add('shiny');
+  }
 
-    // Animation bei Klick auf das Logo
-    logoBtn.addEventListener('click', () => {
-      shine();
-      // Optional: Hier kannst du z.B. auf Startseite navigieren
-      // window.location.href = '/';
-    });
-  </script>
+  // Beim Laden der Seite shiny animieren
+  window.addEventListener('load', () => {
+    triggerShiny();
+  });
+
+  // Beim Klick auf das Logo shiny animieren
+  logoBtn.addEventListener('click', () => {
+    triggerShiny();
+  });
+</script>
+
 </body>
 </html>
