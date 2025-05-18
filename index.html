@@ -2,9 +2,8 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8" />
-  <title>Website mit neuem Kreislogo</title>
+  <title>Website mit glänzendem Logo-Button</title>
   <style>
-    /* Hell- und Dunkelmodus */
     body {
       margin: 0;
       font-family: Arial, sans-serif;
@@ -12,15 +11,15 @@
     }
 
     body.light {
-      background-color: white;
+      background-color: #e5e5e5; /* Zwei Nuancen dunkleres Hellgrau */
       color: #111;
     }
+
     body.dark {
-      background-color: #12307C; /* Indigo Blau (dunkelste Farbe aus Logo) */
+      background-color: #12307C; /* Indigo Blau */
       color: white;
     }
 
-    /* Weißer Balken oben für Logo */
     header {
       background-color: white;
       display: flex;
@@ -35,20 +34,11 @@
       z-index: 1000;
     }
 
-    /* Logo-SVG Container */
-    .logo {
-      width: 50px;
-      height: 50px;
-      /* Verschiebe das Logo etwas nach unten */
-      margin-top: 5px;
-    }
-
     main {
-      padding: 80px 20px 80px 20px; /* Platz lassen für header und footer */
+      padding: 80px 20px 80px 20px;
       min-height: calc(100vh - 140px);
     }
 
-    /* Fußleiste */
     footer {
       background-color: white;
       color: #111;
@@ -80,14 +70,49 @@
       color: white;
     }
 
+    /* Logo-Button */
+    .logo-button {
+      width: 50px;
+      height: 50px;
+      border: none;
+      background: transparent;
+      padding: 0;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .logo-button svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    /* Glanz-Effekt */
+    .shine::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -75%;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(120deg, rgba(255,255,255,0.0) 0%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0.0) 100%);
+      transform: skewX(-20deg);
+      animation: shine 1s ease-in-out;
+    }
+
+    @keyframes shine {
+      from { left: -75%; }
+      to { left: 125%; }
+    }
   </style>
 </head>
 <body class="light">
 
 <header>
-  <div class="logo">
-    <!-- Dein Kreislogo SVG ohne weißen Rand -->
-    <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" width="50" height="50" style="background: transparent;">
+  <button class="logo-button" id="logoButton">
+    <!-- SVG-Logo ohne Hintergrund -->
+    <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <clipPath id="circle-clip">
           <circle cx="100" cy="100" r="100" />
@@ -141,7 +166,7 @@
         fill="none" stroke="white" stroke-width="3" clip-path="url(#circle-clip)"
       />
     </svg>
-  </div>
+  </button>
 
   <button class="toggle-mode" id="modeToggle">Dunkelmodus</button>
 </header>
@@ -158,6 +183,7 @@
 <script>
   const btn = document.getElementById('modeToggle');
   const body = document.body;
+  const logoButton = document.getElementById('logoButton');
 
   btn.addEventListener('click', () => {
     if(body.classList.contains('light')) {
@@ -169,6 +195,25 @@
       body.classList.add('light');
       btn.textContent = 'Dunkelmodus';
     }
+  });
+
+  function triggerShine(el) {
+    el.classList.add('shine');
+    setTimeout(() => el.classList.remove('shine'), 1000);
+  }
+
+  logoButton.addEventListener('click', () => {
+    triggerShine(logoButton);
+    // z. B. Link zu Startseite oder Animation später
+  });
+
+  logoButton.addEventListener('mouseenter', () => {
+    triggerShine(logoButton);
+  });
+
+  // Initiales Glänzen beim Laden
+  window.addEventListener('load', () => {
+    triggerShine(logoButton);
   });
 </script>
 
