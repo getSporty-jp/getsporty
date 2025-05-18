@@ -5,236 +5,243 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Sport Slideshow</title>
   <style>
-    /* --- Deine bisherigen Styles --- */
+    /* Farbvariablen für Indigo-Blau und Weiß */
     :root {
-      --bg-color: #121212;
-      --text-color: #eee;
-      --primary-color: #f0a500;
-      --secondary-bg: #222;
-      --container-bg: #000;
-      --chatbox-bg: #222;
-      --chatbox-text: #eee;
-      --button-bg: #f0a500;
-      --button-hover-bg: #cf8500;
-      --nav-bg: #222;
-      --nav-border: #f0a500;
-      --nav-color: #f0a500;
-      --header-color: #f0a500;
-      --topbar-bg: #777777;
+      --indigo-dark: #12307C; /* Dunkelstes Indigo aus Logo */
+      --white: #fff;
+      --text-light: #eee;
+      --text-dark: #121212;
+      --bg-light: #e6e9f7; /* Heller Indigo-ähnlich */
+      --bg-dark: var(--indigo-dark);
     }
+    /* Hell/Dunkel Modus Variablen */
     body.light {
-      --bg-color: #fefefe;
-      --text-color: #121212;
-      --primary-color: #f0a500;
-      --secondary-bg: #ddd;
-      --container-bg: #fff;
-      --chatbox-bg: #eee;
-      --chatbox-text: #121212;
-      --button-bg: #f0a500;
-      --button-hover-bg: #cf8500;
-      --nav-bg: #eee;
-      --nav-border: #f0a500;
-      --nav-color: #f0a500;
-      --header-color: #f0a500;
-      --topbar-bg: #cccccc;
+      --bg-color: var(--bg-light);
+      --text-color: var(--text-dark);
+      --button-bg: var(--white);
+      --button-text: var(--indigo-dark);
+      --footer-bg: var(--white);
+      --footer-text: var(--indigo-dark);
+    }
+    body.dark {
+      --bg-color: var(--bg-dark);
+      --text-color: var(--text-light);
+      --button-bg: var(--white);
+      --button-text: var(--indigo-dark);
+      --footer-bg: var(--white);
+      --footer-text: var(--indigo-dark);
     }
 
+    /* Grundstyles */
     body {
       margin: 0;
       font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
       background-color: var(--bg-color);
       color: var(--text-color);
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
-      min-height: 100vh;
-      align-items: center;
-      padding: 20px;
-      transition: background-color 0.3s, color 0.3s;
     }
 
-    /* Topbar */
+    /* Topbar mit weißem Balken für Logo Button */
     .topbar {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
-      height: 40px;
-      background-color: var(--topbar-bg);
+      height: 60px;
+      background-color: var(--white);
       display: flex;
-      justify-content: flex-end;
       align-items: center;
-      padding: 0 20px;
+      padding-left: 10px;
       box-sizing: border-box;
       z-index: 1000;
+      border-bottom: 1px solid #ccc;
     }
 
-    /* Logo Button Container oben links */
+    /* Logo Button Container, etwas nach unten geschoben */
     .logo-button-container {
-      position: fixed;
-      top: 0;
-      left: 0;
-      height: 60px; /* etwas höher als Topbar */
-      width: 60px;
-      padding: 5px;
-      box-sizing: border-box;
-      z-index: 1100;
+      height: 50px;
+      width: 50px;
+      margin-top: 5px;
     }
 
-    /* Shiny Logo Button */
+    /* Münz-Shiny Button Style */
     .logo-btn {
       cursor: pointer;
       border-radius: 50%;
-      width: 100%;
-      height: 100%;
+      width: 50px;
+      height: 50px;
       padding: 0;
       border: none;
-      background: none;
-      overflow: visible;
+      background-color: var(--button-bg);
+      box-shadow:
+        inset 0 0 8px rgba(255, 255, 255, 0.6),
+        0 2px 4px rgba(0,0,0,0.15);
       position: relative;
-      outline-offset: 2px;
-      outline-color: var(--primary-color);
-      transition: filter 0.3s ease;
-      filter: drop-shadow(0 0 2px var(--primary-color));
+      overflow: hidden;
+      transition: box-shadow 0.3s ease;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
     .logo-btn svg {
-      width: 100%;
-      height: 100%;
-      display: block;
-      border-radius: 50%;
+      width: 28px;
+      height: 28px;
+      fill: var(--button-text);
+      pointer-events: none;
       user-select: none;
-      pointer-events: none; /* Nur Button soll klicken */
     }
 
-    /* Shiny Animation */
-    @keyframes shiny {
-      0%, 100% {
-        filter: drop-shadow(0 0 2px var(--primary-color));
+    /* Kurz "Münz-Glanz" Animation */
+    .logo-btn.shiny::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        120deg,
+        rgba(255,255,255,0.0) 30%,
+        rgba(255,255,255,0.8) 50%,
+        rgba(255,255,255,0.0) 70%
+      );
+      transform: rotate(25deg);
+      animation: shine 0.6s forwards;
+      pointer-events: none;
+      border-radius: 50%;
+      z-index: 10;
+    }
+
+    @keyframes shine {
+      0% {
+        transform: translateX(-100%) rotate(25deg);
+        opacity: 0;
       }
       50% {
-        filter: drop-shadow(0 0 10px var(--primary-color));
+        opacity: 1;
+      }
+      100% {
+        transform: translateX(100%) rotate(25deg);
+        opacity: 0;
       }
     }
 
-    /* Wenn active wird die Animation getriggert */
-    .logo-btn.shiny {
-      animation: shiny 1.5s ease-in-out forwards;
+    /* Dunkelmodus Umschalter Button */
+    .blob-btn {
+      margin-left: auto;
+      margin-right: 15px;
+      padding: 8px 15px;
+      font-weight: 600;
+      border: none;
+      border-radius: 20px;
+      background-color: var(--button-bg);
+      color: var(--button-text);
+      cursor: pointer;
+      user-select: none;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    .blob-btn:hover, .blob-btn:focus {
+      background-color: #ddd;
+      color: var(--indigo-dark);
+      outline: none;
     }
 
-    /* Deine restlichen Styles (Blob-Button, Header, Slideshow etc.) bleiben unverändert */
-    /* ... hier kommt dein kompletter bisheriger CSS-Code rein ... */
+    /* Hauptinhalt (Platzhalter) */
+    main {
+      flex: 1;
+      padding: 80px 20px 60px; /* Platz für fixed Topbar & Footer */
+      box-sizing: border-box;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    /* Fußzeile unten mit weißem Balken */
+    footer {
+      background-color: var(--footer-bg);
+      color: var(--footer-text);
+      text-align: center;
+      padding: 15px 10px;
+      font-size: 0.9rem;
+      border-top: 1px solid #ccc;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    footer a {
+      color: var(--footer-text);
+      text-decoration: none;
+      margin: 0 8px;
+    }
+    footer a:hover,
+    footer a:focus {
+      text-decoration: underline;
+    }
 
   </style>
 </head>
-<body>
+<body class="dark">
 
-  <!-- Logo als shiny Button oben links -->
-  <div class="logo-button-container">
-    <button class="logo-btn" id="logoBtn" aria-label="Logo Button">
-      <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true" focusable="false">
-        <defs>
-          <clipPath id="circle-clip">
-            <circle cx="100" cy="100" r="100" />
-          </clipPath>
-        </defs>
-
-        <path 
-          d="M0,140
-             Q30,120 70,135
-             Q90,150 120,130
-             Q150,160 180,140
-             Q200,130 200,200
-             L0,200 Z"
-          fill="#12307C"
-          clip-path="url(#circle-clip)"
-        />
-
-        <path 
-          d="M0,90
-             Q20,70 50,90
-             Q80,110 110,90
-             Q140,120 170,85
-             Q200,100 200,140
-             Q180,150 140,140
-             Q100,130 70,140
-             Q30,130 0,140 Z"
-          fill="#3459B1"
-          clip-path="url(#circle-clip)"
-        />
-
-        <path 
-          d="M0,0 L0,90
-             Q25,65 55,90
-             Q90,120 130,80
-             Q160,100 200,85
-             L200,0 Z"
-          fill="#8C9ED6"
-          clip-path="url(#circle-clip)"
-        />
-
-        <path 
-          d="M0,90
-             Q20,60 45,95
-             Q70,130 100,85
-             Q125,120 150,75
-             Q180,110 200,80"
-          fill="none" stroke="white" stroke-width="3" clip-path="url(#circle-clip)"
-        />
-
-        <path 
-          d="M0,140
-             Q40,125 65,145
-             Q95,160 130,130
-             Q170,170 200,140"
-          fill="none" stroke="white" stroke-width="3" clip-path="url(#circle-clip)"
-        />
-      </svg>
-    </button>
-  </div>
-
-  <!-- Deine bestehende Topbar -->
+  <!-- Obere Leiste mit weißem Balken -->
   <div class="topbar" role="region" aria-label="Obere Leiste mit Dunkelmodus Schalter">
+    <div class="logo-button-container">
+      <button class="logo-btn" id="logoBtn" aria-label="Logo Button">
+        <!-- Minimalistisches Münz-Icon -->
+        <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" role="img">
+          <circle cx="32" cy="32" r="28" stroke="none"/>
+          <path d="M20 20 L44 44 M44 20 L20 44" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+
     <button class="blob-btn" id="toggle-theme" aria-pressed="false" aria-label="Hell-Dunkel Modus wechseln">
       Modus wechseln
-      <span class="blob-btn__inner">
-        <span class="blob-btn__blobs">
-          <span class="blob-btn__blob"></span>
-          <span class="blob-btn__blob"></span>
-          <span class="blob-btn__blob"></span>
-          <span class="blob-btn__blob"></span>
-        </span>
-      </span>
     </button>
   </div>
 
-  <!-- Rest deiner Seite ... -->
-  <header>
-    <img src="images/logo.png" alt="Logo" />
-    <h1>Players are made...</h1>
-  </header>
+  <main>
+    <!-- Hier kommt dein Seiteninhalt hin -->
+    <h1>Willkommen</h1>
+    <p>Hier steht dein Inhalt...</p>
+  </main>
 
-  <!-- Hier dein kompletter weiterer Content -->
+  <footer role="contentinfo">
+    <p>
+      &copy; 2025 Dein Unternehmen |
+      <a href="mailto:kontakt@example.com">kontakt@example.com</a> |
+      <a href="/impressum.html">Impressum</a> |
+      <a href="/datenschutz.html">Datenschutz</a>
+    </p>
+  </footer>
 
-<script>
-  // Funktion, um den "shiny"-Effekt beim Laden und beim Klick zu triggern
-  const logoBtn = document.getElementById('logoBtn');
+  <script>
+    // Münz-Glanz Animation triggern beim Klick
+    const logoBtn = document.getElementById('logoBtn');
 
-  function triggerShiny() {
-    logoBtn.classList.remove('shiny');
-    void logoBtn.offsetWidth; // Reflow zum Neustarten der Animation
-    logoBtn.classList.add('shiny');
-  }
+    logoBtn.addEventListener('click', () => {
+      if (logoBtn.classList.contains('shiny')) return; // kein mehrfacher Effekt
 
-  // Beim Laden der Seite shiny animieren
-  window.addEventListener('load', () => {
-    triggerShiny();
-  });
+      logoBtn.classList.add('shiny');
+      setTimeout(() => {
+        logoBtn.classList.remove('shiny');
+      }, 600); // Dauer der Animation
+    });
 
-  // Beim Klick auf das Logo shiny animieren
-  logoBtn.addEventListener('click', () => {
-    triggerShiny();
-  });
-</script>
-
+    // Hell-Dunkel Modus Umschalter
+    const toggleBtn = document.getElementById('toggle-theme');
+    toggleBtn.addEventListener('click', () => {
+      if (document.body.classList.contains('dark')) {
+        document.body.classList.replace('dark', 'light');
+        toggleBtn.setAttribute('aria-pressed', 'true');
+      } else {
+        document.body.classList.replace('light', 'dark');
+        toggleBtn.setAttribute('aria-pressed', 'false');
+      }
+    });
+  </script>
 </body>
 </html>
