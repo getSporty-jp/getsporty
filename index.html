@@ -10,9 +10,9 @@
       --indigo-dark: #12307C;
       --indigo-mid: #3459B1;
       --indigo-light: #8C9ED6;
-      --light-bg: #d0d0d0;
-      --light-bg-secondary: #e0e0e0;
-      --dark-bg: #121212;
+      --light-bg: #c0c0c0;
+      --light-bg-secondary: #d0d0d0;
+      --dark-bg: #202020;
       --text-color-light: #111;
       --text-color-dark: #eee;
     }
@@ -34,15 +34,11 @@
     }
 
     header {
-      background-color: var(--light-bg-secondary);
+      background-color: white;
       padding: 10px 20px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-    }
-
-    body.dark header {
-      background-color: #1e1e1e;
     }
 
     .logo-button {
@@ -53,10 +49,7 @@
       transition: transform 0.2s ease-in-out;
     }
 
-    .logo-button:hover {
-      animation: shine 0.6s ease-in-out;
-    }
-
+    .logo-button:hover,
     .logo-button:active {
       animation: shine 0.6s ease-in-out;
     }
@@ -95,24 +88,39 @@
     }
 
     .dark footer {
-      background-color: #f0f0f0;
+      background-color: white;
       color: #111;
     }
 
     .toggle-mode {
+      background-color: #e0e0e0;
+      color: #000;
+      border: none;
+      border-radius: 4px;
+      padding: 10px 20px;
+      font-size: 14px;
       cursor: pointer;
-      background: none;
-      border: 1px solid #aaa;
-      padding: 6px 10px;
-      border-radius: 5px;
-      margin-left: auto;
+      transition: background-color 0.2s ease-in-out;
+    }
+
+    .toggle-mode:hover {
+      background-color: #ccc;
+    }
+
+    .dark .toggle-mode {
+      background-color: #444;
+      color: #fff;
+    }
+
+    .dark .toggle-mode:hover {
+      background-color: #666;
     }
   </style>
 </head>
 <body>
 
   <header>
-    <!-- Logo als Button -->
+    <!-- Logo-Button -->
     <button class="logo-button" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">
       <svg class="logo-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
         <defs>
@@ -174,7 +182,7 @@
       </svg>
     </button>
 
-    <button class="toggle-mode" onclick="toggleMode()">🌓 Modus wechseln</button>
+    <button class="toggle-mode" onclick="toggleMode()">Modus wechseln</button>
   </header>
 
   <main>
@@ -190,10 +198,9 @@
       document.body.classList.toggle("dark");
     }
 
-    // Shine-Animation beim Laden auslösen
+    // Shine beim Laden
     window.addEventListener("load", () => {
       const logo = document.querySelector(".logo-button");
-      logo.classList.add("shine-on-load");
       logo.style.animation = "shine 0.6s ease-in-out";
     });
   </script>
