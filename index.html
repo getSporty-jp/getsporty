@@ -46,12 +46,11 @@
       border: none;
       cursor: pointer;
       padding: 0;
-      transition: transform 0.2s ease-in-out;
+      transition: transform 0.3s ease;
     }
 
-    .logo-button:hover,
-    .logo-button:active {
-      animation: shine 0.6s ease-in-out;
+    .logo-button:hover {
+      transform: scale(1.1);
     }
 
     .logo-svg {
@@ -59,7 +58,11 @@
       height: 60px;
     }
 
-    @keyframes shine {
+    .shine {
+      animation: shineEffect 1s ease-in-out;
+    }
+
+    @keyframes shineEffect {
       0% {
         filter: brightness(1);
       }
@@ -121,13 +124,16 @@
 
   <header>
     <!-- Logo-Button -->
-    <button class="logo-button" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">
+    <button class="logo-button" id="logo-button" onclick="scrollToTopAndShine()">
       <svg class="logo-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <clipPath id="circle-clip">
             <circle cx="100" cy="100" r="100" />
           </clipPath>
         </defs>
+
+        <!-- Weißer Hintergrundkreis -->
+        <circle cx="100" cy="100" r="100" fill="white" />
 
         <path 
           d="M0,140
@@ -194,15 +200,25 @@
   </footer>
 
   <script>
+    const logoButton = document.getElementById("logo-button");
+
+    function scrollToTopAndShine() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      triggerShine();
+    }
+
+    function triggerShine() {
+      logoButton.classList.remove("shine");
+      void logoButton.offsetWidth; // Force reflow for animation restart
+      logoButton.classList.add("shine");
+    }
+
+    logoButton.addEventListener("mouseenter", triggerShine);
+    window.addEventListener("load", triggerShine);
+
     function toggleMode() {
       document.body.classList.toggle("dark");
     }
-
-    // Shine beim Laden
-    window.addEventListener("load", () => {
-      const logo = document.querySelector(".logo-button");
-      logo.style.animation = "shine 0.6s ease-in-out";
-    });
   </script>
 </body>
 </html>
