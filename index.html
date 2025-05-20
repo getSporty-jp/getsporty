@@ -2,43 +2,49 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8" />
-  <title>Meine Webseite</title>
+  <title>Fashion Style</title>
   <link rel="icon" type="image/png" href="favicon.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --indigo-dark: #12307C;
       --indigo-mid: #3459B1;
       --indigo-light: #8C9ED6;
-      --light-bg: #c0c0c0;
-      --light-bg-secondary: #d0d0d0;
-      --dark-bg: #202020;
-      --text-color-light: #111;
-      --text-color-dark: #eee;
+      --gray-light: #f0f0f0;
+      --gray-dark: #2a2a2a;
     }
 
     body {
       margin: 0;
-      font-family: sans-serif;
-      background-color: var(--light-bg);
-      color: var(--text-color-light);
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
+      font-family: 'Lato', sans-serif;
+      background-color: var(--indigo-light);
+      color: #111;
       transition: background-color 0.3s, color 0.3s;
     }
 
     body.dark {
-      background-color: var(--dark-bg);
-      color: var(--text-color-dark);
+      background-color: var(--indigo-dark);
+      color: #eee;
     }
 
     header {
       background-color: white;
-      padding: 10px 20px;
+      padding: 10px 30px;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    body.dark header {
+      background-color: var(--gray-dark);
+    }
+
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: 15px;
     }
 
     .logo-button {
@@ -58,41 +64,53 @@
       height: 60px;
     }
 
-    .shine {
-      animation: shineEffect 1s ease-in-out;
+    .brand-name {
+      font-weight: 700;
+      font-size: 26px;
+      letter-spacing: 1px;
+      color: var(--indigo-dark);
     }
 
-    @keyframes shineEffect {
-      0% {
-        filter: brightness(1);
-      }
-      50% {
-        filter: brightness(2);
-      }
-      100% {
-        filter: brightness(1);
-      }
+    body.dark .brand-name {
+      color: white;
     }
 
-    main {
-      flex: 1;
+    .nav-links {
       display: flex;
+      gap: 30px;
+      font-weight: 700;
+      font-size: 16px;
       justify-content: center;
+      flex: 1;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: inherit;
+      transition: color 0.2s ease-in-out;
+    }
+
+    .nav-links a:hover {
+      color: var(--indigo-mid);
+    }
+
+    .header-icons {
+      display: flex;
       align-items: center;
-      padding: 20px;
+      gap: 12px;
     }
 
-    footer {
-      background-color: white;
-      color: #333;
-      padding: 15px 20px;
-      text-align: center;
-      font-size: 14px;
+    .heart-icon {
+      width: 30px;
+      height: 30px;
+      fill: var(--indigo-dark);
+      cursor: pointer;
     }
 
-    .dark footer {
-      background-color: white;
-      color: #111;
+    body.dark .heart-icon {
+      fill: white;
     }
 
     .toggle-mode {
@@ -100,7 +118,7 @@
       color: #000;
       border: none;
       border-radius: 4px;
-      padding: 10px 20px;
+      padding: 6px 12px;
       font-size: 14px;
       cursor: pointer;
       transition: background-color 0.2s ease-in-out;
@@ -110,93 +128,136 @@
       background-color: #ccc;
     }
 
-    .dark .toggle-mode {
+    body.dark .toggle-mode {
       background-color: #444;
       color: #fff;
     }
 
-    .dark .toggle-mode:hover {
+    body.dark .toggle-mode:hover {
       background-color: #666;
+    }
+
+    .shine {
+      animation: shineEffect 1s ease-in-out;
+    }
+
+    @keyframes shineEffect {
+      0% { filter: brightness(1); }
+      50% { filter: brightness(2); }
+      100% { filter: brightness(1); }
+    }
+
+    main {
+      background-color: var(--indigo-light);
+      padding: 50px 20px;
+      min-height: 400px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    body.dark main {
+      background-color: var(--indigo-dark);
+    }
+
+    footer {
+      background-color: white;
+      color: #333;
+      padding: 20px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    body.dark footer {
+      background-color: var(--gray-dark);
+      color: #ddd;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+
+    .footer-links a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    @media (max-width: 700px) {
+      .nav-links {
+        flex-basis: 100%;
+        justify-content: center;
+        margin-top: 10px;
+      }
+
+      header {
+        flex-direction: column;
+        gap: 10px;
+      }
     }
   </style>
 </head>
 <body>
-
   <header>
-    <!-- Logo-Button -->
-    <button class="logo-button" id="logo-button" onclick="scrollToTopAndShine()">
-      <svg class="logo-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <clipPath id="circle-clip">
-            <circle cx="100" cy="100" r="100" />
-          </clipPath>
-        </defs>
+    <!-- Logo + Brand -->
+    <div class="logo-area">
+      <button class="logo-button" id="logo-button" onclick="scrollToTopAndShine()">
+        <svg class="logo-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <clipPath id="circle-clip">
+              <circle cx="100" cy="100" r="100" />
+            </clipPath>
+          </defs>
+          <circle cx="100" cy="100" r="100" fill="white" />
+          <path d="M0,140 Q30,120 70,135 Q90,150 120,130 Q150,160 180,140 Q200,130 200,200 L0,200 Z" fill="#12307C" clip-path="url(#circle-clip)" />
+          <path d="M0,90 Q20,70 50,90 Q80,110 110,90 Q140,120 170,85 Q200,100 200,140 Q180,150 140,140 Q100,130 70,140 Q30,130 0,140 Z" fill="#3459B1" clip-path="url(#circle-clip)" />
+          <path d="M0,0 L0,90 Q25,65 55,90 Q90,120 130,80 Q160,100 200,85 L200,0 Z" fill="#8C9ED6" clip-path="url(#circle-clip)" />
+          <path d="M0,90 Q20,60 45,95 Q70,130 100,85 Q125,120 150,75 Q180,110 200,80" fill="none" stroke="white" stroke-width="3" clip-path="url(#circle-clip)" />
+          <path d="M0,140 Q40,125 65,145 Q95,160 130,130 Q170,170 200,140" fill="none" stroke="white" stroke-width="3" clip-path="url(#circle-clip)" />
+        </svg>
+      </button>
+      <span class="brand-name">GETSPORTY</span>
+    </div>
 
-        <!-- Weißer Hintergrundkreis -->
-        <circle cx="100" cy="100" r="100" fill="white" />
+    <!-- Navigation -->
+    <nav class="nav-links">
+      <a href="#">Men</a>
+      <a href="#">Women</a>
+      <a href="#">Kids</a>
+      <a href="#">Find ur Style</a>
+    </nav>
 
-        <path 
-          d="M0,140
-             Q30,120 70,135
-             Q90,150 120,130
-             Q150,160 180,140
-             Q200,130 200,200
-             L0,200 Z"
-          fill="#12307C"
-          clip-path="url(#circle-clip)"
-        />
-
-        <path 
-          d="M0,90
-             Q20,70 50,90
-             Q80,110 110,90
-             Q140,120 170,85
-             Q200,100 200,140
-             Q180,150 140,140
-             Q100,130 70,140
-             Q30,130 0,140 Z"
-          fill="#3459B1"
-          clip-path="url(#circle-clip)"
-        />
-
-        <path 
-          d="M0,0 L0,90
-             Q25,65 55,90
-             Q90,120 130,80
-             Q160,100 200,85
-             L200,0 Z"
-          fill="#8C9ED6"
-          clip-path="url(#circle-clip)"
-        />
-
-        <path 
-          d="M0,90
-             Q20,60 45,95
-             Q70,130 100,85
-             Q125,120 150,75
-             Q180,110 200,80"
-          fill="none" stroke="white" stroke-width="3" clip-path="url(#circle-clip)"
-        />
-
-        <path 
-          d="M0,140
-             Q40,125 65,145
-             Q95,160 130,130
-             Q170,170 200,140"
-          fill="none" stroke="white" stroke-width="3" clip-path="url(#circle-clip)"
-        />
+    <!-- Icons -->
+    <div class="header-icons">
+      <!-- Herz -->
+      <svg class="heart-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 
+          4.42 3 7.5 3c1.74 0 3.41 0.81 4.5 2.09C13.09 3.81 
+          14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 
+          3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
       </svg>
-    </button>
 
-    <button class="toggle-mode" onclick="toggleMode()">Modus wechseln</button>
+      <!-- Dark Mode Toggle -->
+      <button class="toggle-mode" onclick="toggleMode()">Modus</button>
+    </div>
   </header>
 
   <main>
-    <h1>Willkommen auf meiner Seite!</h1>
+    <h1>Fashion. Fresh. You.</h1>
   </main>
 
   <footer>
-    <p>Impressum | Kontakt: <a href="mailto:deine@email.de">deine@email.de</a></p>
+    <div class="footer-links">
+      <a href="#">Impressum</a>
+      <a href="mailto:email@domain.com">E-Mail</a>
+      <a href="#">Kontakt</a>
+      <a href="#">Hilfe</a>
+      <a href="#">AGB</a>
+      <a href="#">Datenschutz</a>
+    </div>
   </footer>
 
   <script>
@@ -209,7 +270,7 @@
 
     function triggerShine() {
       logoButton.classList.remove("shine");
-      void logoButton.offsetWidth; // Force reflow for animation restart
+      void logoButton.offsetWidth;
       logoButton.classList.add("shine");
     }
 
