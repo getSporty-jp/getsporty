@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <head>
   <meta charset="UTF-8" />
   <title>GetSporty</title>
   <link rel="icon" href="images/logo-favicon.ico?v=2" type="image/x-icon" />
@@ -161,6 +160,25 @@
       background-color: var(--indigo-dark);
     }
 
+    /* Slideshow Styles */
+    .slideshow-container {
+      position: relative;
+      max-width: 100%;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+
+    .slide {
+      display: none;
+      width: 100%;
+    }
+
+    .slide img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
     footer {
       background-color: white;
       color: #333;
@@ -207,11 +225,7 @@
     <div class="logo-area">
       <button class="logo-button" id="logo-button" onclick="scrollToTopAndShine()">
         <svg class="logo-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <clipPath id="circle-clip">
-              <circle cx="100" cy="100" r="100" />
-            </clipPath>
-          </defs>
+          <defs><clipPath id="circle-clip"><circle cx="100" cy="100" r="100" /></clipPath></defs>
           <circle cx="100" cy="100" r="100" fill="white" />
           <path d="M0,140 Q30,120 70,135 Q90,150 120,130 Q150,160 180,140 Q200,130 200,200 L0,200 Z" fill="#12307C" clip-path="url(#circle-clip)" />
           <path d="M0,90 Q20,70 50,90 Q80,110 110,90 Q140,120 170,85 Q200,100 200,140 Q180,150 140,140 Q100,130 70,140 Q30,130 0,140 Z" fill="#3459B1" clip-path="url(#circle-clip)" />
@@ -250,6 +264,15 @@
     <h1>Fashion. Fresh. You.</h1>
   </main>
 
+  <!-- Slideshow Section -->
+  <div class="slideshow-container">
+    <div class="slide"><img src="pic1.jpg" alt="Bild 1"></div>
+    <div class="slide"><img src="pic2.jpg" alt="Bild 2"></div>
+    <div class="slide"><img src="pic3.jpg" alt="Bild 3"></div>
+    <div class="slide"><img src="pic4.jpg" alt="Bild 4"></div>
+    <div class="slide"><img src="pic5.jpg" alt="Bild 5"></div>
+  </div>
+
   <footer>
     <div class="footer-links">
       <a href="#">Impressum</a>
@@ -281,6 +304,22 @@
     function toggleMode() {
       document.body.classList.toggle("dark");
     }
+
+    // Slideshow logic
+    let slideIndex = 0;
+    const slides = document.getElementsByClassName("slide");
+
+    function showSlides() {
+      for (let i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+      }
+      slideIndex++;
+      if (slideIndex > slides.length) { slideIndex = 1; }
+      slides[slideIndex - 1].style.display = "block";
+      setTimeout(showSlides, 3000); // 3 Sekunden
+    }
+
+    showSlides();
   </script>
 </body>
 </html>
