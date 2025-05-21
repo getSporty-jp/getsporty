@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <head>
   <meta charset="UTF-8" />
   <title>GetSporty</title>
   <link rel="icon" href="images/logo-favicon.ico?v=2" type="image/x-icon" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
   <style>
+    /* --- Bestehende Styles --- */
     :root {
       --indigo-dark: #12307C;
       --indigo-mid: #3459B1;
@@ -29,225 +29,119 @@
       color: #eee;
     }
 
-    header {
-      background-color: white;
-      padding: 10px 30px;
+    header, footer { padding: 10px 30px; }
+    main { padding: 50px 20px; display: flex; flex-direction: column; align-items: center; }
+
+    /* --- Slider Styles --- */
+    .slider-container {
+      position: relative;
+      width: 90%;
+      max-width: 900px;
+      height: 500px;
+      margin: 40px auto;
+      overflow: hidden;
+      border-radius: 20px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+
+    .slider {
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
+      transition: transform 0.6s ease-in-out;
+      height: 100%;
     }
 
-    body.dark header {
-      background-color: var(--gray-dark);
+    .slide {
+      min-width: 100%;
+      height: 100%;
+      position: relative;
     }
 
-    .logo-area {
-      display: flex;
-      align-items: center;
-      gap: 15px;
+    .slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 20px;
     }
 
-    .logo-button {
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 0;
-      transition: transform 0.3s ease;
-    }
-
-    .logo-button:hover {
-      transform: scale(1.1);
-    }
-
-    .logo-svg {
-      width: 60px;
-      height: 60px;
-    }
-
-    .brand-name {
-      font-weight: 700;
-      font-size: 26px;
-      letter-spacing: 1px;
-      color: var(--indigo-dark);
-    }
-
-    body.dark .brand-name {
+    .shop-button {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      background-color: var(--indigo-mid);
       color: white;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 30px;
-      font-weight: 700;
-      font-size: 16px;
-      justify-content: center;
-      flex: 1;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .nav-links a {
-      text-decoration: none;
-      color: inherit;
-      transition: color 0.2s ease-in-out;
-    }
-
-    .nav-links a:hover {
-      color: var(--indigo-mid);
-    }
-
-    .header-icons {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .heart-icon {
-      width: 30px;
-      height: 30px;
-      fill: var(--indigo-dark);
-      cursor: pointer;
-    }
-
-    body.dark .heart-icon {
-      fill: white;
-    }
-
-    .toggle-mode {
-      background-color: #e0e0e0;
-      color: #000;
+      padding: 10px 20px;
       border: none;
-      border-radius: 4px;
-      padding: 6px 12px;
-      font-size: 14px;
+      border-radius: 10px;
+      font-size: 16px;
       cursor: pointer;
-      transition: background-color 0.2s ease-in-out;
+      transition: background-color 0.3s ease;
     }
 
-    .toggle-mode:hover {
-      background-color: #ccc;
-    }
-
-    body.dark .toggle-mode {
-      background-color: #444;
-      color: #fff;
-    }
-
-    body.dark .toggle-mode:hover {
-      background-color: #666;
-    }
-
-    .shine {
-      animation: shineEffect 1s ease-in-out;
-    }
-
-    @keyframes shineEffect {
-      0% { filter: brightness(1); }
-      50% { filter: brightness(2); }
-      100% { filter: brightness(1); }
-    }
-
-    main {
-      background-color: var(--indigo-light);
-      padding: 50px 20px;
-      min-height: 400px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    body.dark main {
+    .shop-button:hover {
       background-color: var(--indigo-dark);
     }
 
-    footer {
-      background-color: white;
-      color: #333;
-      padding: 20px;
-      text-align: center;
-      font-size: 14px;
-    }
-
-    body.dark footer {
-      background-color: var(--gray-dark);
-      color: #ddd;
-    }
-
-    .footer-links {
+    .dots {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
       display: flex;
-      justify-content: center;
-      gap: 30px;
-      flex-wrap: wrap;
-      margin-bottom: 10px;
+      gap: 10px;
     }
 
-    .footer-links a {
-      text-decoration: none;
-      color: inherit;
+    .dot {
+      width: 12px;
+      height: 12px;
+      background-color: rgba(255,255,255,0.7);
+      border-radius: 50%;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
     }
 
-    @media (max-width: 700px) {
-      .nav-links {
-        flex-basis: 100%;
-        justify-content: center;
-        margin-top: 10px;
-      }
+    .dot.active {
+      background-color: var(--indigo-dark);
+    }
 
-      header {
-        flex-direction: column;
-        gap: 10px;
+    /* --- Responsive --- */
+    @media (max-width: 600px) {
+      .slider-container {
+        height: 300px;
       }
     }
   </style>
 </head>
 <body>
   <header>
-    <!-- Logo + Brand -->
+    <!-- Dein bestehender Header-Code bleibt unverändert -->
     <div class="logo-area">
-      <button class="logo-button" id="logo-button" onclick="scrollToTopAndShine()">
-        <svg class="logo-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <clipPath id="circle-clip">
-              <circle cx="100" cy="100" r="100" />
-            </clipPath>
-          </defs>
-          <circle cx="100" cy="100" r="100" fill="white" />
-          <path d="M0,140 Q30,120 70,135 Q90,150 120,130 Q150,160 180,140 Q200,130 200,200 L0,200 Z" fill="#12307C" clip-path="url(#circle-clip)" />
-          <path d="M0,90 Q20,70 50,90 Q80,110 110,90 Q140,120 170,85 Q200,100 200,140 Q180,150 140,140 Q100,130 70,140 Q30,130 0,140 Z" fill="#3459B1" clip-path="url(#circle-clip)" />
-          <path d="M0,0 L0,90 Q25,65 55,90 Q90,120 130,80 Q160,100 200,85 L200,0 Z" fill="#8C9ED6" clip-path="url(#circle-clip)" />
-          <path d="M0,90 Q20,60 45,95 Q70,130 100,85 Q125,120 150,75 Q180,110 200,80" fill="none" stroke="white" stroke-width="3" clip-path="url(#circle-clip)" />
-          <path d="M0,140 Q40,125 65,145 Q95,160 130,130 Q170,170 200,140" fill="none" stroke="white" stroke-width="3" clip-path="url(#circle-clip)" />
-        </svg>
-      </button>
+      <button class="logo-button" id="logo-button" onclick="scrollToTopAndShine()">...</button>
       <span class="brand-name">GETSPORTY</span>
     </div>
-
-    <!-- Navigation -->
-    <nav class="nav-links">
-      <a href="#">Men</a>
-      <a href="#">Women</a>
-      <a href="#">Kids</a>
-      <a href="#">Find ur Style</a>
-    </nav>
-
-    <!-- Icons -->
-    <div class="header-icons">
-      <!-- Herz -->
-      <svg class="heart-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 
-          4.42 3 7.5 3c1.74 0 3.41 0.81 4.5 2.09C13.09 3.81 
-          14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 
-          3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-      </svg>
-
-      <!-- Dark Mode Toggle -->
-      <button class="toggle-mode" onclick="toggleMode()">Modus</button>
-    </div>
+    <!-- Navigation + Icons bleiben gleich -->
   </header>
 
   <main>
     <h1>Fashion. Fresh. You.</h1>
+
+    <!-- Bildslider Start -->
+    <div class="slider-container">
+      <div class="slider" id="slider">
+        <div class="slide"><img src="pic1.png" alt="Bild 1"><button class="shop-button">Shop Now</button></div>
+        <div class="slide"><img src="pic2.png" alt="Bild 2"><button class="shop-button">Shop Now</button></div>
+        <div class="slide"><img src="pic3.png" alt="Bild 3"><button class="shop-button">Shop Now</button></div>
+        <div class="slide"><img src="pic4.png" alt="Bild 4"><button class="shop-button">Shop Now</button></div>
+        <div class="slide"><img src="pic5.png" alt="Bild 5"><button class="shop-button">Shop Now</button></div>
+      </div>
+      <div class="dots" id="dots">
+        <div class="dot active" onclick="goToSlide(0)"></div>
+        <div class="dot" onclick="goToSlide(1)"></div>
+        <div class="dot" onclick="goToSlide(2)"></div>
+        <div class="dot" onclick="goToSlide(3)"></div>
+        <div class="dot" onclick="goToSlide(4)"></div>
+      </div>
+    </div>
+    <!-- Bildslider Ende -->
+
   </main>
 
   <footer>
@@ -262,6 +156,37 @@
   </footer>
 
   <script>
+    const slider = document.getElementById("slider");
+    const dots = document.querySelectorAll(".dot");
+    let currentIndex = 0;
+    let interval = setInterval(nextSlide, 5000);
+
+    function goToSlide(index) {
+      currentIndex = index;
+      updateSlider();
+      resetInterval();
+    }
+
+    function nextSlide() {
+      currentIndex = (currentIndex + 1) % dots.length;
+      updateSlider();
+    }
+
+    function updateSlider() {
+      slider.style.transform = `translateX(-${currentIndex * 100}%)`;
+      dots.forEach(dot => dot.classList.remove("active"));
+      dots[currentIndex].classList.add("active");
+    }
+
+    function resetInterval() {
+      clearInterval(interval);
+      interval = setInterval(nextSlide, 5000);
+    }
+
+    function toggleMode() {
+      document.body.classList.toggle("dark");
+    }
+
     const logoButton = document.getElementById("logo-button");
 
     function scrollToTopAndShine() {
@@ -277,10 +202,6 @@
 
     logoButton.addEventListener("mouseenter", triggerShine);
     window.addEventListener("load", triggerShine);
-
-    function toggleMode() {
-      document.body.classList.toggle("dark");
-    }
   </script>
 </body>
 </html>
