@@ -1,162 +1,203 @@
-<!-- Füge im <body> nach <main> folgendes ein: -->
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GetSporty</title>
+  <style>
+    :root {
+      --indigo-dark: #4b0082;
+      --indigo-mid: #6a0dad;
+      --gray-light: #f0f0f0;
+    }
 
-<!-- AI Button -->
-<button id="ai-toggle-btn" onclick="toggleSidebar()">
-  💬
-  <span class="notification-badge">1</span>
-</button>
+    /* === AI Button === */
+    #ai-toggle-btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: var(--indigo-dark);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      padding: 12px 20px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      z-index: 1001;
+    }
 
-<!-- AI Sidebar -->
-<div id="ai-sidebar">
-  <div class="ai-header">
-    <h2>SportyAI</h2>
-    <button class="close-btn" onclick="toggleSidebar()">×</button>
-  </div>
-  <div class="ai-body">
-    <div class="ai-chat-log">
-      <div class="ai-message">Hi, wie kann ich dir heute helfen?</div>
+    .notification-badge {
+      position: absolute;
+      top: -6px;
+      right: -6px;
+      background-color: red;
+      color: white;
+      font-size: 12px;
+      font-weight: bold;
+      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* === AI Sidebar Overlay === */
+    #ai-sidebar {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 320px;
+      height: 100vh;
+      background-color: white;
+      color: #111;
+      box-shadow: -6px 0 16px rgba(0, 0, 0, 0.3);
+      transition: right 0.35s ease;
+      display: flex;
+      flex-direction: column;
+      z-index: 1000;
+      overflow: hidden;
+    }
+
+    body.dark #ai-sidebar {
+      background-color: #1a1a1a;
+      color: #eee;
+    }
+
+    #ai-sidebar.open {
+      right: 0;
+    }
+
+    .ai-header {
+      padding: 16px;
+      font-weight: bold;
+      background-color: var(--indigo-dark);
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 22px;
+      cursor: pointer;
+    }
+
+    .ai-body {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      padding: 16px;
+      overflow: hidden;
+    }
+
+    .ai-intro {
+      font-style: italic;
+      margin-bottom: 12px;
+      color: #444;
+    }
+
+    body.dark .ai-intro {
+      color: #ccc;
+    }
+
+    .ai-chat-log {
+      flex: 1;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    .ai-message {
+      background-color: var(--gray-light);
+      padding: 10px;
+      border-radius: 6px;
+      margin-bottom: 10px;
+    }
+
+    body.dark .ai-message {
+      background-color: #333;
+    }
+
+    .ai-input-area {
+      display: flex;
+      gap: 6px;
+      margin-top: 12px;
+    }
+
+    .ai-input-area input {
+      flex: 1;
+      padding: 8px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      background-color: #fff;
+      color: #111;
+    }
+
+    body.dark .ai-input-area input {
+      background-color: #2a2a2a;
+      border: 1px solid #555;
+      color: #eee;
+    }
+
+    .send-btn {
+      background-color: var(--indigo-mid);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      padding: 8px 12px;
+      cursor: pointer;
+    }
+
+    .send-btn:hover {
+      background-color: var(--indigo-dark);
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <!-- Dein bestehender Hauptinhalt hier -->
+  </main>
+
+  <!-- AI Button -->
+  <button id="ai-toggle-btn" onclick="toggleSidebar()">
+    SportyAI
+    <span class="notification-badge">1</span>
+  </button>
+
+  <!-- AI Sidebar -->
+  <div id="ai-sidebar">
+    <div class="ai-header">
+      <h2>SportyAI</h2>
+      <button class="close-btn" onclick="toggleSidebar()">×</button>
     </div>
-    <div class="ai-input-area">
-      <input type="text" placeholder="Frag mich etwas..." />
-      <button class="send-btn">Senden</button>
+    <div class="ai-body">
+      <p class="ai-intro">
+        Welche Sportart begeistert dich? Erzähle mir davon – und ich stelle dir das perfekte Outfit basierend auf deinem Erfahrungslevel und deinem Stil zusammen!
+      </p>
+      <div class="ai-chat-log">
+        <div class="ai-message">Hi, wie kann ich dir heute helfen?</div>
+      </div>
+      <div class="ai-input-area">
+        <input type="text" placeholder="Frag mich etwas..." />
+        <button class="send-btn">Senden</button>
+      </div>
     </div>
   </div>
-</div>
 
-<!-- Ergänze in deinem <style> Block folgendes: -->
-<style>
-  /* === AI Button === */
-  #ai-toggle-btn {
-    position: absolute;
-    top: 15px;
-    right: 20px;
-    background-color: var(--indigo-dark);
-    color: white;
-    border: none;
-    border-radius: 50px;
-    padding: 12px 16px;
-    font-size: 18px;
-    cursor: pointer;
-    z-index: 1000;
-  }
+  <script>
+    function toggleSidebar() {
+      const sidebar = document.getElementById('ai-sidebar');
+      sidebar.classList.toggle('open');
 
-  .notification-badge {
-    position: absolute;
-    top: -5px;
-    right: -5px;
-    background-color: red;
-    color: white;
-    font-size: 12px;
-    font-weight: bold;
-    border-radius: 50%;
-    width: 18px;
-    height: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  /* === Sidebar === */
-  #ai-sidebar {
-    position: absolute;
-    top: 0;
-    right: -320px;
-    width: 300px;
-    height: 100%;
-    max-height: 80vh;
-    background-color: white;
-    color: #111;
-    box-shadow: -4px 0 12px rgba(0,0,0,0.2);
-    transition: right 0.3s ease;
-    display: flex;
-    flex-direction: column;
-    z-index: 999;
-  }
-
-  body.dark #ai-sidebar {
-    background-color: #1e1e1e;
-    color: #eee;
-  }
-
-  #ai-sidebar.open {
-    right: 0;
-  }
-
-  .ai-header {
-    padding: 12px 16px;
-    font-weight: bold;
-    background-color: var(--indigo-dark);
-    color: white;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .close-btn {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 20px;
-    cursor: pointer;
-  }
-
-  .ai-body {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    padding: 12px;
-    overflow: hidden;
-  }
-
-  .ai-chat-log {
-    flex: 1;
-    overflow-y: auto;
-    padding-right: 4px;
-  }
-
-  .ai-message {
-    background-color: var(--gray-light);
-    padding: 10px;
-    border-radius: 6px;
-    margin-bottom: 10px;
-  }
-
-  body.dark .ai-message {
-    background-color: #333;
-  }
-
-  .ai-input-area {
-    display: flex;
-    gap: 6px;
-    margin-top: 12px;
-  }
-
-  .ai-input-area input {
-    flex: 1;
-    padding: 8px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-  }
-
-  .send-btn {
-    background-color: var(--indigo-mid);
-    color: white;
-    border: none;
-    border-radius: 4px;
-    padding: 8px 12px;
-    cursor: pointer;
-  }
-
-  .send-btn:hover {
-    background-color: var(--indigo-dark);
-  }
-</style>
-
-<!-- Ergänze im <script> Block am Ende: -->
-<script>
-  function toggleSidebar() {
-    document.getElementById('ai-sidebar').classList.toggle('open');
-    // Optional: Benachrichtigung ausblenden
-    document.querySelector('.notification-badge').style.display = 'none';
-  }
-</script>
+      // Badge beim Öffnen ausblenden
+      if (sidebar.classList.contains('open')) {
+        document.querySelector('.notification-badge').style.display = 'none';
+      }
+    }
+  </script>
+</body>
+</html>
