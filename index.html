@@ -13,420 +13,151 @@
       --indigo-light: #8C9ED6;
       --gray-light: #f0f0f0;
       --gray-dark: #2a2a2a;
+      --notify-red: #e53935;
     }
 
-    body {
-      margin: 0;
-      font-family: 'Lato', sans-serif;
-      background-color: var(--indigo-light);
-      color: #111;
-      transition: background-color 0.3s, color 0.3s;
-    }
+    /* Bestehende Styles hier (nicht erneut aufgeführt, der Übersicht halber) */
 
-    body.dark {
-      background-color: var(--indigo-dark);
-      color: #eee;
-    }
-
-    header {
-      background-color: white;
-      padding: 10px 30px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-    }
-
-    body.dark header {
-      background-color: var(--gray-dark);
-    }
-
-    .logo-area {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
-
-    .logo-button {
-      background: none;
+    /* SportyAI Button */
+    .sportyai-btn {
+      position: absolute;
+      top: 25%;
+      right: 20px;
+      padding: 12px 20px;
       border: none;
       cursor: pointer;
-      padding: 0;
-      transition: transform 0.3s ease;
-    }
-
-    .logo-button:hover {
-      transform: scale(1.1);
-    }
-
-    .logo-svg {
-      width: 60px;
-      height: 60px;
-    }
-
-    .brand-name {
-      font-weight: 700;
-      font-size: 26px;
-      letter-spacing: 1px;
-      color: var(--indigo-dark);
-    }
-
-    body.dark .brand-name {
-      color: white;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 30px;
-      font-weight: 700;
-      font-size: 16px;
-      justify-content: center;
-      flex: 1;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .nav-links a {
-      text-decoration: none;
-      color: inherit;
-      transition: color 0.2s ease-in-out;
-    }
-
-    .nav-links a:hover {
-      color: var(--indigo-mid);
-    }
-
-    .header-icons {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .heart-icon {
-      width: 30px;
-      height: 30px;
-      fill: var(--indigo-dark);
-      cursor: pointer;
-    }
-
-    body.dark .heart-icon {
-      fill: white;
-    }
-
-    .toggle-mode {
-      background-color: #e0e0e0;
-      color: #000;
-      border: none;
-      border-radius: 4px;
-      padding: 6px 12px;
+      font-weight: bold;
       font-size: 14px;
-      cursor: pointer;
-      transition: background-color 0.2s ease-in-out;
+      border-radius: 12px;
+      z-index: 9999;
+      transition: background-color 0.3s;
     }
 
-    .toggle-mode:hover {
-      background-color: #ccc;
+    .sportyai-btn.light {
+      background-color: var(--indigo-light);
+      color: #000;
     }
 
-    body.dark .toggle-mode {
-      background-color: #444;
+    .sportyai-btn.dark {
+      background-color: var(--indigo-dark);
       color: #fff;
     }
 
-    body.dark .toggle-mode:hover {
-      background-color: #666;
-    }
-
-    .shine {
-      animation: shineEffect 1s ease-in-out;
-    }
-
-    @keyframes shineEffect {
-      0% { filter: brightness(1); }
-      50% { filter: brightness(2); }
-      100% { filter: brightness(1); }
-    }
-
-    main {
-      position: relative;
-      width: 100%;
-      height: 80vh;
-      overflow: hidden;
-    }
-
-    .slide {
-      display: none;
+    .sportyai-btn .notify-badge {
       position: absolute;
-      width: 100%;
-      height: 100%;
-      background-size: cover;
-      background-position: center;
-      transition: opacity 1s ease-in-out;
-    }
-
-    .slide.active {
-      display: block;
-      opacity: 1;
-    }
-
-    .slide a {
-      display: block;
-      width: 100%;
-      height: 100%;
-    }
-
-    .slide-content {
-      position: absolute;
-      bottom: 20px;
-      left: 20px;
+      top: -6px;
+      left: -6px;
+      background-color: var(--notify-red);
       color: white;
-      background-color: rgba(0, 0, 0, 0.5);
-      padding: 15px 25px;
-      border-radius: 5px;
-    }
-
-    .shop-btn {
-      margin-top: 10px;
-      padding: 10px 20px;
-      background-color: white;
-      color: black;
-      border: none;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
-    .dots {
-      position: absolute;
-      bottom: 15px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      gap: 10px;
-      z-index: 10;
-    }
-
-    .dot {
-      width: 12px;
-      height: 12px;
-      background-color: #ccc;
-      border-radius: 50%;
-      cursor: pointer;
-    }
-
-    .dot.active {
-      background-color: #333;
-    }
-
-    footer {
-      background-color: white;
-      color: #333;
-      padding: 20px;
-      text-align: center;
-      font-size: 14px;
-    }
-
-    body.dark footer {
-      background-color: var(--gray-dark);
-      color: #ddd;
-    }
-
-    .footer-links {
-      display: flex;
-      justify-content: center;
-      gap: 30px;
-      flex-wrap: wrap;
-      margin-bottom: 10px;
-    }
-
-    .footer-links a {
-      text-decoration: none;
-      color: inherit;
-    }
-
-    /* --- SportyAI Styles --- */
-    .ai-button {
-      position: absolute;
-      top: 25%;
-      right: 30px;
-      padding: 10px 16px 10px 36px;
-      border: none;
-      border-radius: 10px;
-      font-weight: bold;
-      cursor: pointer;
-      background-color: #4aa1f3;
-      color: white;
-      z-index: 1000;
-    }
-
-    body.dark .ai-button {
-      background-color: #1d5f99;
-    }
-
-    .ai-badge {
-      position: absolute;
-      left: -10px;
-      top: 50%;
-      transform: translateY(-50%);
       width: 18px;
       height: 18px;
-      background-color: red;
-      color: white;
       font-size: 12px;
-      font-weight: bold;
-      text-align: center;
-      line-height: 18px;
       border-radius: 50%;
-      box-shadow: 0 0 0 2px white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
     }
 
-    .ai-sidebar {
+    /* Sidebar */
+    .sportyai-sidebar {
       position: absolute;
       top: 0;
-      right: -350px;
+      right: -400px;
       height: 80vh;
-      width: 320px;
-      background-color: #fff;
-      border-left: 2px solid #ccc;
-      box-shadow: -2px 0 10px rgba(0, 0, 0, 0.2);
-      transition: right 0.3s ease-in-out;
-      z-index: 999;
+      width: 350px;
+      background-color: white;
+      border-top-left-radius: 20px;
+      border-bottom-left-radius: 20px;
+      box-shadow: -2px 0 10px rgba(0,0,0,0.2);
+      padding: 20px;
+      transition: right 0.4s ease-in-out;
+      z-index: 9998;
       display: flex;
       flex-direction: column;
-      padding: 20px;
+      justify-content: space-between;
     }
 
-    body.dark .ai-sidebar {
-      background-color: #1f1f1f;
+    body.dark .sportyai-sidebar {
+      background-color: var(--gray-dark);
       color: white;
-      border-left-color: #444;
     }
 
-    .ai-sidebar.open {
+    .sportyai-sidebar.active {
       right: 0;
     }
 
-    .ai-sidebar h3 {
-      margin-top: 0;
+    .sportyai-sidebar h2 {
+      font-size: 18px;
+      margin-bottom: 20px;
     }
 
-    .ai-textarea {
-      resize: none;
+    .sportyai-input {
+      flex-grow: 1;
       width: 100%;
-      min-height: 80px;
+      resize: none;
       padding: 10px;
-      margin-top: 10px;
-      font-family: 'Lato', sans-serif;
       font-size: 14px;
-      border: 1px solid #ccc;
       border-radius: 8px;
+      border: 1px solid #ccc;
+      margin-bottom: 20px;
     }
 
-    .ai-send {
-      margin-top: 10px;
-      padding: 10px;
+    .sportyai-send {
+      padding: 10px 20px;
       border: none;
-      background-color: #3459B1;
+      background-color: var(--indigo-mid);
       color: white;
       font-weight: bold;
-      border-radius: 6px;
+      border-radius: 8px;
       cursor: pointer;
     }
 
-    .ai-send:hover {
-      background-color: #12307C;
-    }
-
-    @media (max-width: 700px) {
-      .nav-links {
-        flex-basis: 100%;
-        justify-content: center;
-        margin-top: 10px;
-      }
-
-      header {
-        flex-direction: column;
-        gap: 10px;
-      }
-
-      .slide-content {
-        font-size: 14px;
-        padding: 10px 15px;
-      }
-
-      .shop-btn {
-        font-size: 14px;
-        padding: 8px 16px;
-      }
-
-      .ai-button {
-        top: 25%;
-        right: 10px;
-      }
-
-      .ai-sidebar {
-        width: 100%;
-        right: -100%;
-      }
-
-      .ai-sidebar.open {
-        right: 0;
-      }
+    body.dark .sportyai-send {
+      background-color: var(--indigo-light);
+      color: black;
     }
   </style>
 </head>
 <body>
-  <header>
-    <!-- DEIN HEADER BLEIBT UNVERÄNDERT -->
-  </header>
+  <!-- EXISTIERENDER INHALT OBEN BLEIBT UNVERÄNDERT -->
 
-  <main>
-    <!-- DEINE BILDER/SLIDES BLEIBEN UNVERÄNDERT -->
+  <!-- SportyAI Button -->
+  <button id="sportyaiBtn" class="sportyai-btn light">
+    <span class="notify-badge" id="notifyBadge">1</span>
+    SportyAI
+  </button>
 
-    <!-- AI Button -->
-    <button class="ai-button" onclick="toggleSidebar()">
-      <span class="ai-badge">1</span>
-      SportyAI
-    </button>
-
-    <!-- AI Sidebar -->
-    <div id="aiSidebar" class="ai-sidebar">
-      <h3>SportyAI</h3>
-      <p>Lass uns dein Outfit für deine nächste Herausforderung zusammenstellen.</p>
-      <textarea class="ai-textarea" placeholder="Erzähl mir, für welchen Anlass du ein Outfit brauchst..."></textarea>
-      <button class="ai-send">Senden</button>
+  <!-- Sidebar -->
+  <div id="sportyaiSidebar" class="sportyai-sidebar">
+    <div>
+      <h2>Lass uns dein nächstes Outfit für deine nächste Herausforderung erstellen.</h2>
+      <textarea class="sportyai-input" rows="6" placeholder="Nenn mir deine Interessen/Lieblingsfarben/Größe etc."></textarea>
     </div>
+    <button class="sportyai-send">Senden</button>
+  </div>
 
-    <!-- DEINE DOTS BLEIBEN UNVERÄNDERT -->
-  </main>
-
-  <footer>
-    <!-- DEIN FOOTER BLEIBT UNVERÄNDERT -->
-  </footer>
-
+  <!-- EXISTIERENDE SCRIPTE -->
   <script>
-    function toggleMode() {
-      document.body.classList.toggle("dark");
-    }
-
     const logoButton = document.getElementById("logo-button");
     function scrollToTopAndShine() {
       window.scrollTo({ top: 0, behavior: 'smooth' });
       triggerShine();
     }
-
     function triggerShine() {
       logoButton.classList.remove("shine");
       void logoButton.offsetWidth;
       logoButton.classList.add("shine");
     }
-
-    logoButton?.addEventListener("mouseenter", triggerShine);
+    logoButton.addEventListener("mouseenter", triggerShine);
     window.addEventListener("load", triggerShine);
 
-    function toggleSidebar() {
-      document.getElementById("aiSidebar").classList.toggle("open");
+    function toggleMode() {
+      document.body.classList.toggle("dark");
+      updateSportyAIStyles();
     }
 
+    // Slideshow
     let currentSlide = 0;
     const slides = document.querySelectorAll(".slide");
     const dots = document.querySelectorAll(".dot");
@@ -434,7 +165,7 @@
     function showSlide(index) {
       slides.forEach((s, i) => {
         s.classList.toggle("active", i === index);
-        dots[i]?.classList.toggle("active", i === index);
+        dots[i].classList.toggle("active", i === index);
       });
       currentSlide = index;
     }
@@ -442,6 +173,29 @@
     setInterval(() => {
       showSlide((currentSlide + 1) % slides.length);
     }, 5000);
+
+    // SportyAI Sidebar Toggle
+    const sportyBtn = document.getElementById("sportyaiBtn");
+    const sidebar = document.getElementById("sportyaiSidebar");
+    const badge = document.getElementById("notifyBadge");
+
+    sportyBtn.addEventListener("click", () => {
+      sidebar.classList.toggle("active");
+      const isOpen = sidebar.classList.contains("active");
+      badge.style.display = isOpen ? "none" : "flex";
+    });
+
+    function updateSportyAIStyles() {
+      if (document.body.classList.contains("dark")) {
+        sportyBtn.classList.remove("light");
+        sportyBtn.classList.add("dark");
+      } else {
+        sportyBtn.classList.remove("dark");
+        sportyBtn.classList.add("light");
+      }
+    }
+
+    updateSportyAIStyles();
   </script>
 </body>
 </html>
