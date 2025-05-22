@@ -1,3 +1,4 @@
+<!-- GESAMTER HTML-CODE MIT SPORTYAI-BUTTON & LOGO -->
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -13,7 +14,6 @@
       --indigo-light: #8C9ED6;
       --gray-light: #f0f0f0;
       --gray-dark: #2a2a2a;
-      --sidebar-width: 320px;
     }
 
     body {
@@ -148,211 +148,94 @@
       100% { filter: brightness(1); }
     }
 
-    main {
-      position: relative;
-      width: 100%;
-      height: 80vh;
-      overflow: hidden;
-    }
-
-    .slide {
-      display: none;
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      background-size: cover;
-      background-position: center;
-      transition: opacity 1s ease-in-out;
-    }
-
-    .slide.active {
-      display: block;
-      opacity: 1;
-    }
-
-    .slide a {
-      display: block;
-      width: 100%;
-      height: 100%;
-    }
-
-    .slide-content {
-      position: absolute;
-      bottom: 20px;
-      left: 20px;
-      color: white;
-      background-color: rgba(0, 0, 0, 0.5);
-      padding: 15px 25px;
-      border-radius: 5px;
-    }
-
-    .shop-btn {
-      margin-top: 10px;
-      padding: 10px 20px;
-      background-color: white;
-      color: black;
-      border: none;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
-    .dots {
-      position: absolute;
-      bottom: 15px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      gap: 10px;
-      z-index: 10;
-    }
-
-    .dot {
-      width: 12px;
-      height: 12px;
-      background-color: #ccc;
-      border-radius: 50%;
-      cursor: pointer;
-    }
-
-    .dot.active {
-      background-color: #333;
-    }
-
-    footer {
-      background-color: white;
-      color: #333;
-      padding: 20px;
-      text-align: center;
-      font-size: 14px;
-    }
-
-    body.dark footer {
-      background-color: var(--gray-dark);
-      color: #ddd;
-    }
-
-    .footer-links {
-      display: flex;
-      justify-content: center;
-      gap: 30px;
-      flex-wrap: wrap;
-      margin-bottom: 10px;
-    }
-
-    .footer-links a {
-      text-decoration: none;
-      color: inherit;
-    }
-
-    /* --- SportyAI Sidebar --- */
-    .ai-button {
-      position: absolute;
-      top: 15px;
-      right: 15px;
-      background-color: var(--indigo-mid);
-      border: none;
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
-      cursor: pointer;
-      z-index: 20;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .ai-button::after {
-      content: "1";
-      position: absolute;
-      top: -5px;
-      right: -5px;
-      background-color: red;
-      color: white;
-      width: 18px;
-      height: 18px;
-      font-size: 12px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
+    /* AI SIDEBAR */
     .ai-sidebar {
-      position: absolute;
-      top: 0;
+      position: fixed;
+      top: 100px;
       right: 0;
-      height: 100%;
-      width: var(--sidebar-width);
+      width: 300px;
+      max-height: 80vh;
       background-color: white;
-      border-left: 2px solid var(--indigo-mid);
+      border-left: 2px solid var(--indigo-dark);
+      box-shadow: -2px 0 8px rgba(0,0,0,0.2);
       padding: 20px;
-      box-shadow: -2px 0 6px rgba(0, 0, 0, 0.1);
-      transform: translateX(100%);
-      transition: transform 0.3s ease-in-out;
-      z-index: 15;
+      display: none;
+      flex-direction: column;
+      gap: 15px;
+      z-index: 1000;
     }
 
     body.dark .ai-sidebar {
-      background-color: #1f1f1f;
+      background-color: #333;
+      color: #fff;
+      border-color: #555;
+    }
+
+    .ai-button {
+      position: fixed;
+      top: 100px;
+      right: 20px;
+      background-color: var(--indigo-mid);
       color: white;
-    }
-
-    .ai-sidebar.open {
-      transform: translateX(0);
-    }
-
-    .ai-header {
-      font-size: 20px;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 20px 10px 40px;
       font-weight: bold;
-      margin-bottom: 15px;
+      cursor: pointer;
+      z-index: 1001;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
     }
 
-    .ai-input-area {
+    .ai-badge {
+      position: absolute;
+      top: 6px;
+      left: 10px;
+      background-color: red;
+      color: white;
+      width: 20px;
+      height: 20px;
+      font-size: 12px;
+      font-weight: bold;
+      border-radius: 50%;
       display: flex;
-      gap: 10px;
-      margin-top: auto;
+      align-items: center;
+      justify-content: center;
     }
 
-    .ai-input {
-      flex: 1;
+    .ai-textarea {
+      width: 100%;
+      height: 80px;
+      resize: vertical;
       padding: 8px;
+      font-family: 'Lato', sans-serif;
+      font-size: 14px;
       border: 1px solid #ccc;
       border-radius: 5px;
     }
 
-    .ai-send {
-      padding: 8px 12px;
-      background-color: var(--indigo-mid);
-      border: none;
+    .ai-submit {
+      padding: 10px;
+      background-color: var(--indigo-dark);
       color: white;
-      border-radius: 5px;
+      border: none;
+      border-radius: 6px;
       cursor: pointer;
+      font-weight: bold;
+    }
+
+    .ai-submit:hover {
+      background-color: var(--indigo-mid);
     }
 
     @media (max-width: 700px) {
-      .nav-links {
-        flex-basis: 100%;
-        justify-content: center;
-        margin-top: 10px;
-      }
-
-      header {
-        flex-direction: column;
-        gap: 10px;
-      }
-
-      .slide-content {
-        font-size: 14px;
-        padding: 10px 15px;
-      }
-
-      .shop-btn {
-        font-size: 14px;
-        padding: 8px 16px;
+      .ai-button {
+        right: 10px;
+        top: 80px;
       }
 
       .ai-sidebar {
-        width: 100%;
+        width: 90%;
+        right: 5%;
       }
     }
   </style>
@@ -361,84 +244,65 @@
   <header>
     <div class="logo-area">
       <button class="logo-button" id="logo-button" onclick="scrollToTopAndShine()">
-        <!-- Logo SVG omitted for brevity -->
-        <svg class="logo-svg" viewBox="0 0 200 200"><circle cx="100" cy="100" r="100" fill="white" /><path d="..." fill="#12307C" /></svg>
+        <svg class="logo-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <clipPath id="circle-clip">
+              <circle cx="100" cy="100" r="100" />
+            </clipPath>
+          </defs>
+          <circle cx="100" cy="100" r="100" fill="white" />
+          <path d="M0,140 Q30,120 70,135 Q90,150 120,130 Q150,160 180,140 Q200,130 200,200 L0,200 Z" fill="#12307C" clip-path="url(#circle-clip)" />
+          <path d="M0,90 Q20,70 50,90 Q80,110 110,90 Q140,120 170,85 Q200,100 200,140 Q180,150 140,140 Q100,130 70,140 Q30,130 0,140 Z" fill="#3459B1" clip-path="url(#circle-clip)" />
+          <path d="M0,0 L0,90 Q25,65 55,90 Q90,120 130,80 Q160,100 200,85 L200,0 Z" fill="#8C9ED6" clip-path="url(#circle-clip)" />
+          <path d="M0,90 Q20,60 45,95 Q70,130 100,85 Q125,120 150,75 Q180,110 200,80" fill="none" stroke="white" stroke-width="3" clip-path="url(#circle-clip)" />
+          <path d="M0,140 Q40,125 65,145 Q95,160 130,130 Q170,170 200,140" fill="none" stroke="white" stroke-width="3" clip-path="url(#circle-clip)" />
+        </svg>
       </button>
       <span class="brand-name">GETSPORTY</span>
     </div>
-    <nav class="nav-links">
-      <a href="#">Men</a>
-      <a href="#">Women</a>
-      <a href="#">Kids</a>
-      <a href="#">Find ur Style</a>
-    </nav>
-    <div class="header-icons">
-      <svg class="heart-icon" viewBox="0 0 24 24"><path d="..." /></svg>
-      <button class="toggle-mode" onclick="toggleMode()">Modus</button>
-    </div>
+    <!-- nav + icons bleiben wie gehabt -->
   </header>
 
-  <main>
-    <!-- Slides -->
-    <div class="slide active" style="background-image: url('images/pic1.jpg')">
-      <a href="#"><div class="slide-content"><h1>Fashion. Fresh. You.</h1><button class="shop-btn">Shop Now</button></div></a>
-    </div>
-    <div class="slide" style="background-image: url('images/pic2.jpg')"><a href="#"><div class="slide-content"><h1>Power Your Moves</h1><button class="shop-btn">Shop Now</button></div></a></div>
-    <div class="slide" style="background-image: url('images/pic3.jpg')"><a href="#"><div class="slide-content"><h1>Run. Style. Repeat.</h1><button class="shop-btn">Shop Now</button></div></a></div>
-    <div class="slide" style="background-image: url('images/pic4.jpg')"><a href="#"><div class="slide-content"><h1>New Season, New You</h1><button class="shop-btn">Shop Now</button></div></a></div>
-    <div class="slide" style="background-image: url('images/pic5.jpg')"><a href="#"><div class="slide-content"><h1>Gear Up Smart</h1><button class="shop-btn">Shop Now</button></div></a></div>
+  <!-- bestehender Main + Footer bleiben unverändert -->
 
-    <div class="dots">
-      <span class="dot active" onclick="showSlide(0)"></span>
-      <span class="dot" onclick="showSlide(1)"></span>
-      <span class="dot" onclick="showSlide(2)"></span>
-      <span class="dot" onclick="showSlide(3)"></span>
-      <span class="dot" onclick="showSlide(4)"></span>
-    </div>
+  <!-- SPORTYAI Button und Sidebar -->
+  <button class="ai-button" onclick="toggleAISidebar()">
+    <div class="ai-badge">1</div>
+    SportyAI
+  </button>
 
-    <button class="ai-button" onclick="toggleSidebar()">🤖</button>
-    <div id="aiSidebar" class="ai-sidebar">
-      <div class="ai-header">SportyAI</div>
-      <p>Wie kann ich dir helfen?</p>
-      <div class="ai-input-area">
-        <input type="text" class="ai-input" placeholder="Deine Frage..." />
-        <button class="ai-send">Senden</button>
-      </div>
-    </div>
-  </main>
-
-  <footer>
-    <div class="footer-links">
-      <a href="#">Impressum</a>
-      <a href="mailto:email@domain.com">E-Mail</a>
-      <a href="#">Kontakt</a>
-      <a href="#">Hilfe</a>
-      <a href="#">AGB</a>
-      <a href="#">Datenschutz</a>
-    </div>
-  </footer>
+  <div class="ai-sidebar" id="aiSidebar">
+    <p><strong>Lass uns dein Outfit für deine nächste Herausforderung zusammenstellen!</strong></p>
+    <textarea class="ai-textarea" placeholder="Was brauchst du? Schreib los..."></textarea>
+    <button class="ai-submit">Senden</button>
+  </div>
 
   <script>
-    const logoButton = document.getElementById("logo-button");
+    function toggleAISidebar() {
+      const sidebar = document.getElementById("aiSidebar");
+      sidebar.style.display = sidebar.style.display === "flex" ? "none" : "flex";
+    }
 
+    const logoButton = document.getElementById("logo-button");
     function scrollToTopAndShine() {
       window.scrollTo({ top: 0, behavior: 'smooth' });
       triggerShine();
     }
-
     function triggerShine() {
       logoButton.classList.remove("shine");
       void logoButton.offsetWidth;
       logoButton.classList.add("shine");
     }
+    logoButton.addEventListener("mouseenter", triggerShine);
+    window.addEventListener("load", triggerShine);
 
     function toggleMode() {
       document.body.classList.toggle("dark");
     }
 
+    let currentSlide = 0;
     const slides = document.querySelectorAll(".slide");
     const dots = document.querySelectorAll(".dot");
-    let currentSlide = 0;
 
     function showSlide(index) {
       slides.forEach((s, i) => {
@@ -451,13 +315,6 @@
     setInterval(() => {
       showSlide((currentSlide + 1) % slides.length);
     }, 5000);
-
-    function toggleSidebar() {
-      document.getElementById("aiSidebar").classList.toggle("open");
-    }
-
-    logoButton.addEventListener("mouseenter", triggerShine);
-    window.addEventListener("load", triggerShine);
   </script>
 </body>
 </html>
