@@ -5,19 +5,14 @@
   <title>GetSporty</title>
   <link rel="icon" href="images/logo-favicon.ico?v=2" type="image/x-icon" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    /* Ursprüngliche Styles belassen */
     :root {
       --indigo-dark: #12307C;
       --indigo-mid: #3459B1;
       --indigo-light: #8C9ED6;
       --gray-light: #f0f0f0;
       --gray-dark: #2a2a2a;
-      --sidebar-light-bg: #ddd;
-      --sidebar-dark-bg: #444;
-      --sidebar-light-color: #111;
-      --sidebar-dark-color: #eee;
     }
 
     body {
@@ -40,238 +35,374 @@
       align-items: center;
       justify-content: space-between;
       flex-wrap: wrap;
-      position: relative;
-      z-index: 1000;
     }
 
     body.dark header {
       background-color: var(--gray-dark);
     }
 
-    /* ... (Alle bisherigen Styles vom Header, Navigation, Main, Footer ...) */
-
-    /* Sidebar Styles nur hinzugefügt: */
-
-    #chat-sidebar {
-      position: fixed;
-      top: 60px; /* Höhe des Headers */
-      right: 0;
-      width: 25vw;
-      max-width: 400px;
-      min-width: 200px;
-      height: calc(100vh - 60px);
-      background-color: var(--sidebar-light-bg);
-      color: var(--sidebar-light-color);
-      box-shadow: -2px 0 8px rgba(0,0,0,0.2);
-      resize: horizontal;
-      overflow: auto;
-      z-index: 999;
-      border-left: 1px solid #999;
+    .logo-area {
       display: flex;
-      flex-direction: column;
+      align-items: center;
+      gap: 15px;
     }
 
-    body.dark #chat-sidebar {
-      background-color: var(--sidebar-dark-bg);
-      color: var(--sidebar-dark-color);
-      border-left: 1px solid #666;
+    .logo-button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      transition: transform 0.3s ease;
     }
 
-    #chat-sidebar header {
-      padding: 10px;
-      background-color: inherit;
-      border-bottom: 1px solid #999;
+    .logo-button:hover {
+      transform: scale(1.1);
+    }
+
+    .logo-svg {
+      width: 60px;
+      height: 60px;
+    }
+
+    .brand-name {
       font-weight: 700;
-      cursor: move;
-      user-select: none;
+      font-size: 26px;
+      letter-spacing: 1px;
+      color: var(--indigo-dark);
     }
 
-    body.dark #chat-sidebar header {
-      border-bottom: 1px solid #666;
-    }
-
-    #chat-content {
-      flex: 1;
-      padding: 10px;
-      overflow-y: auto;
-      font-size: 14px;
-      line-height: 1.4;
-    }
-
-    #chat-input-area {
-      padding: 10px;
-      border-top: 1px solid #999;
-      background-color: inherit;
-      display: flex;
-      gap: 8px;
-    }
-
-    body.dark #chat-input-area {
-      border-top: 1px solid #666;
-    }
-
-    #chat-input {
-      flex: 1;
-      padding: 8px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      font-family: inherit;
-      font-size: 14px;
-      resize: none;
-      background-color: #fff;
-      color: #000;
-      transition: background-color 0.3s, color 0.3s;
-    }
-
-    body.dark #chat-input {
-      background-color: #666;
-      color: #eee;
-      border: 1px solid #444;
-    }
-
-    #send-btn {
-      padding: 8px 12px;
-      background-color: var(--indigo-mid);
+    body.dark .brand-name {
       color: white;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 30px;
+      font-weight: 700;
+      font-size: 16px;
+      justify-content: center;
+      flex: 1;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: inherit;
+      transition: color 0.2s ease-in-out;
+    }
+
+    .nav-links a:hover {
+      color: var(--indigo-mid);
+    }
+
+    .header-icons {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .heart-icon {
+      width: 30px;
+      height: 30px;
+      fill: var(--indigo-dark);
+      cursor: pointer;
+    }
+
+    body.dark .heart-icon {
+      fill: white;
+    }
+
+    .toggle-mode {
+      background-color: #e0e0e0;
+      color: #000;
       border: none;
       border-radius: 4px;
+      padding: 6px 12px;
+      font-size: 14px;
       cursor: pointer;
-      font-weight: 700;
-      transition: background-color 0.3s;
+      transition: background-color 0.2s ease-in-out;
     }
 
-    #send-btn:hover {
-      background-color: var(--indigo-dark);
+    .toggle-mode:hover {
+      background-color: #ccc;
     }
 
-    /* Responsiv falls nötig */
+    body.dark .toggle-mode {
+      background-color: #444;
+      color: #fff;
+    }
+
+    body.dark .toggle-mode:hover {
+      background-color: #666;
+    }
+
+    .shine {
+      animation: shineEffect 1s ease-in-out;
+    }
+
+    @keyframes shineEffect {
+      0% { filter: brightness(1); }
+      50% { filter: brightness(2); }
+      100% { filter: brightness(1); }
+    }
+
+    main {
+      position: relative;
+      width: 100%;
+      height: 80vh;
+      overflow: hidden;
+    }
+
+    .slide {
+      display: none;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      transition: opacity 1s ease-in-out;
+    }
+
+    .slide.active {
+      display: block;
+      opacity: 1;
+    }
+
+    .slide a {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    .slide-content {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      color: white;
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 15px 25px;
+      border-radius: 5px;
+    }
+
+    .shop-btn {
+      margin-top: 10px;
+      padding: 10px 20px;
+      background-color: white;
+      color: black;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .dots {
+      position: absolute;
+      bottom: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+      z-index: 10;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      background-color: #ccc;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    .dot.active {
+      background-color: #333;
+    }
+
+    footer {
+      background-color: white;
+      color: #333;
+      padding: 20px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    body.dark footer {
+      background-color: var(--gray-dark);
+      color: #ddd;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+
+    .footer-links a {
+      text-decoration: none;
+      color: inherit;
+    }
+
     @media (max-width: 700px) {
-      #chat-sidebar {
-        width: 40vw;
-        min-width: 150px;
+      .nav-links {
+        flex-basis: 100%;
+        justify-content: center;
+        margin-top: 10px;
+      }
+
+      header {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .slide-content {
+        font-size: 14px;
+        padding: 10px 15px;
+      }
+
+      .shop-btn {
+        font-size: 14px;
+        padding: 8px 16px;
       }
     }
   </style>
 </head>
 <body>
-
-  <!-- HEADER, NAVIGATION, MAIN, FOOTER unverändert belassen -->
-
   <header>
     <div class="logo-area">
-      <button class="logo-button" title="GetSporty Home" aria-label="GetSporty Home">
-        <!-- Originales Logo SVG hier einfügen, wie im Ursprungscode -->
-        <img src="images/logo.svg" alt="GetSporty Logo" style="height: 60px;">
+      <button class="logo-button" id="logo-button" onclick="scrollToTopAndShine()">
+        <svg class="logo-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <clipPath id="circle-clip">
+              <circle cx="100" cy="100" r="100" />
+            </clipPath>
+          </defs>
+          <circle cx="100" cy="100" r="100" fill="white" />
+          <path d="M0,140 Q30,120 70,135 Q90,150 120,130 Q150,160 180,140 Q200,130 200,200 L0,200 Z" fill="#12307C" clip-path="url(#circle-clip)" />
+          <path d="M0,90 Q20,70 50,90 Q80,110 110,90 Q140,120 170,85 Q200,100 200,140 Q180,150 140,140 Q100,130 70,140 Q30,130 0,140 Z" fill="#3459B1" clip-path="url(#circle-clip)" />
+          <path d="M0,0 L0,90 Q25,65 55,90 Q90,120 130,80 Q160,100 200,85 L200,0 Z" fill="#8C9ED6" clip-path="url(#circle-clip)" />
+          <path d="M0,90 Q20,60 45,95 Q70,130 100,85 Q125,120 150,75 Q180,110 200,80" fill="none" stroke="white" stroke-width="3" clip-path="url(#circle-clip)" />
+          <path d="M0,140 Q40,125 65,145 Q95,160 130,130 Q170,170 200,140" fill="none" stroke="white" stroke-width="3" clip-path="url(#circle-clip)" />
+        </svg>
       </button>
-      <div class="brand-name">GetSporty</div>
+      <span class="brand-name">GETSPORTY</span>
     </div>
-
     <nav class="nav-links">
-      <a href="#angebote">Angebote</a>
-      <a href="#personal-training">Personal Training</a>
-      <a href="#studios">Studios</a>
-      <a href="#fitness-zubehoer">Fitness Zubehör</a>
-      <a href="#ernaehrung">Ernährung</a>
+      <a href="#">Men</a>
+      <a href="#">Women</a>
+      <a href="#">Kids</a>
+      <a href="#">Find ur Style</a>
     </nav>
-
     <div class="header-icons">
-      <svg class="heart-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="var(--indigo-dark)">
-        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 
-        2 5.42 4.42 3 7.5 3c1.74 0 3.41 0.81 4.5 2.09 
-        C13.09 3.81 14.76 3 16.5 3 
-        19.58 3 22 5.42 22 8.5
-        c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+      <svg class="heart-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 
+          4.42 3 7.5 3c1.74 0 3.41 0.81 4.5 2.09C13.09 3.81 
+          14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 
+          3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
       </svg>
-      <button class="toggle-mode" id="mode-toggle">Dark Mode</button>
+      <button class="toggle-mode" onclick="toggleMode()">Modus</button>
     </div>
   </header>
 
   <main>
-    <!-- Dein Hauptinhalt hier -->
+    <div class="slide active" style="background-image: url('images/pic1.jpg')">
+      <a href="#">
+        <div class="slide-content">
+          <h1>Fashion. Fresh. You.</h1>
+          <button class="shop-btn">Shop Now</button>
+        </div>
+      </a>
+    </div>
+    <div class="slide" style="background-image: url('images/pic2.jpg')">
+      <a href="#">
+        <div class="slide-content">
+          <h1>Power Your Moves</h1>
+          <button class="shop-btn">Shop Now</button>
+        </div>
+      </a>
+    </div>
+    <div class="slide" style="background-image: url('images/pic3.jpg')">
+      <a href="#">
+        <div class="slide-content">
+          <h1>Run. Style. Repeat.</h1>
+          <button class="shop-btn">Shop Now</button>
+        </div>
+      </a>
+    </div>
+    <div class="slide" style="background-image: url('images/pic4.jpg')">
+      <a href="#">
+        <div class="slide-content">
+          <h1>New Season, New You</h1>
+          <button class="shop-btn">Shop Now</button>
+        </div>
+      </a>
+    </div>
+    <div class="slide" style="background-image: url('images/pic5.jpg')">
+      <a href="#">
+        <div class="slide-content">
+          <h1>Gear Up Smart</h1>
+          <button class="shop-btn">Shop Now</button>
+        </div>
+      </a>
+    </div>
+    <div class="dots">
+      <span class="dot active" onclick="showSlide(0)"></span>
+      <span class="dot" onclick="showSlide(1)"></span>
+      <span class="dot" onclick="showSlide(2)"></span>
+      <span class="dot" onclick="showSlide(3)"></span>
+      <span class="dot" onclick="showSlide(4)"></span>
+    </div>
   </main>
 
   <footer>
     <div class="footer-links">
-      <a href="#impressum">Impressum</a>
-      <a href="#datenschutz">Datenschutz</a>
-      <a href="#kontakt">Kontakt</a>
+      <a href="#">Impressum</a>
+      <a href="mailto:email@domain.com">E-Mail</a>
+      <a href="#">Kontakt</a>
+      <a href="#">Hilfe</a>
+      <a href="#">AGB</a>
+      <a href="#">Datenschutz</a>
     </div>
-    &copy; 2025 GetSporty
   </footer>
 
-  <!-- Hier die neue Sidebar nur ergänzt -->
-  <div id="chat-sidebar" role="complementary" aria-label="Chat Sidebar">
-    <header>ChatGPT Input</header>
-    <div id="chat-content" tabindex="0" aria-live="polite" aria-atomic="true">
-      <!-- Chatverlauf oder Inhalte hier -->
-    </div>
-    <div id="chat-input-area">
-      <textarea id="chat-input" rows="3" placeholder="Schreibe deine Nachricht..."></textarea>
-      <button id="send-btn">Senden</button>
-    </div>
-  </div>
-
   <script>
-    // Dark mode toggle - unverändert
-    const modeToggle = document.getElementById('mode-toggle');
-    modeToggle.addEventListener('click', () => {
-      document.body.classList.toggle('dark');
-      if(document.body.classList.contains('dark')) {
-        modeToggle.textContent = 'Light Mode';
-      } else {
-        modeToggle.textContent = 'Dark Mode';
-      }
-    });
+    const logoButton = document.getElementById("logo-button");
 
-    // Sidebar resize via header drag
-    const sidebar = document.getElementById('chat-sidebar');
-    const sidebarHeader = sidebar.querySelector('header');
+    function scrollToTopAndShine() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      triggerShine();
+    }
 
-    let isDragging = false;
-    let startX;
-    let startWidth;
+    function triggerShine() {
+      logoButton.classList.remove("shine");
+      void logoButton.offsetWidth;
+      logoButton.classList.add("shine");
+    }
 
-    sidebarHeader.addEventListener('mousedown', (e) => {
-      isDragging = true;
-      startX = e.clientX;
-      startWidth = sidebar.offsetWidth;
-      document.body.style.userSelect = 'none';
-    });
+    logoButton.addEventListener("mouseenter", triggerShine);
+    window.addEventListener("load", triggerShine);
 
-    window.addEventListener('mousemove', (e) => {
-      if (!isDragging) return;
-      const dx = startX - e.clientX;
-      let newWidth = startWidth + dx;
-      if(newWidth < 200) newWidth = 200;
-      if(newWidth > 600) newWidth = 600;
-      sidebar.style.width = newWidth + 'px';
-    });
+    function toggleMode() {
+      document.body.classList.toggle("dark");
+    }
 
-    window.addEventListener('mouseup', () => {
-      if(isDragging) {
-        isDragging = false;
-        document.body.style.userSelect = 'auto';
-      }
-    });
+    // Slideshow
+    let currentSlide = 0;
+    const slides = document.querySelectorAll(".slide");
+    const dots = document.querySelectorAll(".dot");
 
-    // Einfacher Send Button Event für Chat
-    const sendBtn = document.getElementById('send-btn');
-    const chatInput = document.getElementById('chat-input');
-    const chatContent = document.getElementById('chat-content');
+    function showSlide(index) {
+      slides.forEach((s, i) => {
+        s.classList.toggle("active", i === index);
+        dots[i].classList.toggle("active", i === index);
+      });
+      currentSlide = index;
+    }
 
-    sendBtn.addEventListener('click', () => {
-      const message = chatInput.value.trim();
-      if (message === '') return;
-      const messageElem = document.createElement('div');
-      messageElem.textContent = message;
-      messageElem.style.padding = '6px 8px';
-      messageElem.style.marginBottom = '6px';
-      messageElem.style.backgroundColor = 'rgba(52, 89, 177, 0.2)';
-      messageElem.style.borderRadius = '4px';
-      chatContent.appendChild(messageElem);
-      chatInput.value = '';
-      chatContent.scrollTop = chatContent.scrollHeight;
-    });
+    setInterval(() => {
+      showSlide((currentSlide + 1) % slides.length);
+    }, 5000);
   </script>
 </body>
-</html>
+</html><!DOCTYPE html>
+<html lang="de">
