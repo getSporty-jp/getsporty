@@ -13,8 +13,7 @@
       --indigo-light: #8C9ED6;
       --gray-light: #f0f0f0;
       --gray-dark: #2a2a2a;
-      --ai-bg-light: #ffffffdd;
-      --ai-bg-dark: #1e1e1edd;
+      --sidebar-width: 320px;
     }
 
     body {
@@ -23,10 +22,7 @@
       background-color: var(--indigo-light);
       color: #111;
       transition: background-color 0.3s, color 0.3s;
-      /* flex container für main + sidebar */
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
+      overflow-x: hidden; /* kein horizontaler Scroll */
     }
 
     body.dark {
@@ -41,7 +37,8 @@
       align-items: center;
       justify-content: space-between;
       flex-wrap: wrap;
-      z-index: 10;
+      position: relative; /* für Button */
+      z-index: 20;
     }
 
     body.dark header {
@@ -154,22 +151,18 @@
       100% { filter: brightness(1); }
     }
 
-    /* MAIN und SLIDER + SIDEBAR CONTAINER */
     main {
-      flex: 1;
-      display: flex;
       position: relative;
+      width: 100%;
       height: 80vh;
       overflow: hidden;
-      padding: 0 30px 30px 30px;
-      box-sizing: border-box;
-      gap: 20px;
+      background-color: transparent;
+      transition: filter 0.3s ease;
     }
 
-    /* SLIDER: nimmt ca. 75% Breite */
-    .slider-container {
-      flex: 3;
-      position: relative;
+    /* Wenn Sidebar offen, Hintergrund leicht abdunkeln */
+    main.sidebar-opened {
+      filter: brightness(0.8);
     }
 
     .slide {
@@ -180,7 +173,6 @@
       background-size: cover;
       background-position: center;
       transition: opacity 1s ease-in-out;
-      border-radius: 8px;
     }
 
     .slide.active {
@@ -212,7 +204,6 @@
       border: none;
       cursor: pointer;
       font-weight: bold;
-      border-radius: 5px;
     }
 
     .dots {
@@ -237,102 +228,12 @@
       background-color: #333;
     }
 
-    /* SIDEBAR rechts neben Slider - ca. 25% Breite */
-    .sidebar {
-      flex: 1;
-      background-color: var(--ai-bg-light);
-      border-radius: 15px;
-      padding: 20px;
-      box-sizing: border-box;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      transition: background-color 0.3s, color 0.3s;
-      color: #111;
-    }
-
-    body.dark .sidebar {
-      background-color: var(--ai-bg-dark);
-      color: #eee;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.6);
-    }
-
-    .sidebar h2 {
-      margin-top: 0;
-      margin-bottom: 15px;
-      font-weight: 700;
-      font-size: 22px;
-    }
-
-    .sidebar p {
-      flex-grow: 1;
-      margin-bottom: 20px;
-      font-size: 16px;
-      line-height: 1.4;
-    }
-
-    .input-area {
-      display: flex;
-      gap: 10px;
-    }
-
-    textarea.input-text {
-      flex: 1;
-      resize: vertical;
-      min-height: 60px;
-      max-height: 120px;
-      padding: 10px;
-      border-radius: 10px;
-      border: 1px solid #ccc;
-      font-family: 'Lato', sans-serif;
-      font-size: 14px;
-      transition: border-color 0.2s;
-    }
-
-    textarea.input-text:focus {
-      outline: none;
-      border-color: var(--indigo-mid);
-    }
-
-    body.dark textarea.input-text {
-      background-color: #333;
-      border-color: #555;
-      color: #eee;
-    }
-
-    .send-btn {
-      background-color: var(--indigo-mid);
-      border: none;
-      border-radius: 10px;
-      color: white;
-      padding: 10px 18px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-
-    .send-btn:hover {
-      background-color: var(--indigo-dark);
-    }
-
-    body.dark .send-btn {
-      background-color: var(--indigo-light);
-      color: var(--indigo-dark);
-    }
-
-    body.dark .send-btn:hover {
-      background-color: var(--indigo-mid);
-      color: white;
-    }
-
     footer {
       background-color: white;
       color: #333;
       padding: 20px;
       text-align: center;
       font-size: 14px;
-      flex-shrink: 0;
     }
 
     body.dark footer {
@@ -353,20 +254,123 @@
       color: inherit;
     }
 
-    @media (max-width: 1000px) {
-      main {
-        flex-direction: column;
-        height: auto;
-      }
-      .slider-container, .sidebar {
-        flex: none;
-        width: 100%;
-        height: auto;
-        margin-bottom: 20px;
-      }
-      .sidebar {
-        border-radius: 10px;
-      }
+    /* SportyAI Button (abgerundetes Rechteck) mit Benachrichtigung */
+    #sportyai-toggle {
+      position: fixed;
+      top: 100px;
+      right: 20px;
+      background-color: var(--indigo-mid);
+      color: white;
+      font-weight: 700;
+      border: none;
+      border-radius: 20px;
+      padding: 10px 20px;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      z-index: 30;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Lato', sans-serif;
+      transition: background-color 0.3s ease;
+    }
+    #sportyai-toggle:hover {
+      background-color: var(--indigo-dark);
+    }
+
+    /* Roter Kreis mit weißer "1" */
+    #notification-badge {
+      background-color: red;
+      color: white;
+      font-weight: 700;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      flex-shrink: 0;
+      transition: background-color 0.3s ease, opacity 0.3s ease;
+    }
+
+    /* Andere Darstellung wenn Sidebar offen */
+    #notification-badge.open {
+      background-color: darkred;
+      opacity: 0; /* verstecken */
+      pointer-events: none;
+    }
+
+    /* Sidebar selbst */
+    #sportyai-sidebar {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: var(--sidebar-width);
+      height: 80vh;
+      background-color: rgba(255, 255, 255, 0.95);
+      box-shadow: -4px 0 12px rgba(0,0,0,0.3);
+      border-radius: 12px 0 0 12px;
+      padding: 20px;
+      box-sizing: border-box;
+      transform: translateX(100%);
+      transition: transform 0.4s ease;
+      font-family: 'Lato', sans-serif;
+      display: flex;
+      flex-direction: column;
+      z-index: 29;
+    }
+
+    body.dark #sportyai-sidebar {
+      background-color: rgba(40, 40, 40, 0.95);
+      color: #eee;
+      box-shadow: -4px 0 12px rgba(255,255,255,0.15);
+    }
+
+    #sportyai-sidebar.open {
+      transform: translateX(0);
+    }
+
+    /* Inhalt der Sidebar */
+    #sportyai-sidebar h2 {
+      margin: 0 0 15px 0;
+      font-weight: 700;
+      font-size: 24px;
+    }
+
+    #sportyai-sidebar textarea {
+      flex-grow: 1;
+      resize: none;
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-family: 'Lato', sans-serif;
+      background-color: white;
+      color: black;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    body.dark #sportyai-sidebar textarea {
+      background-color: #333;
+      color: #eee;
+      border-color: #555;
+    }
+
+    #sportyai-sidebar button.send-btn {
+      margin-top: 10px;
+      padding: 10px 15px;
+      font-weight: 700;
+      background-color: var(--indigo-mid);
+      border: none;
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      align-self: flex-end;
+    }
+    #sportyai-sidebar button.send-btn:hover {
+      background-color: var(--indigo-dark);
     }
 
     @media (max-width: 700px) {
@@ -389,6 +393,19 @@
       .shop-btn {
         font-size: 14px;
         padding: 8px 16px;
+      }
+
+      /* Sidebar und Button anpassen */
+      #sportyai-toggle {
+        top: 70px;
+        right: 15px;
+        padding: 8px 16px;
+        font-size: 14px;
+      }
+      #sportyai-sidebar {
+        width: 280px;
+        height: 70vh;
+        padding: 15px;
       }
     }
   </style>
@@ -417,119 +434,148 @@
       <a href="#">Men</a>
       <a href="#">Women</a>
       <a href="#">Kids</a>
-      <a href="#">Find ur Style</a>
+      <a href="#">Sports</a>
+      <a href="#">Sale</a>
     </nav>
     <div class="header-icons">
-      <svg class="heart-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 
-          4.42 3 7.5 3c1.74 0 3.41 0.81 4.5 2.09C13.09 3.81 
-          14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 
-          3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+      <svg class="heart-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+        <path d="M462.3 62.7c-54.5-46.4-136-38.7-178.7 13.3L256 96l-27.6-20c-42.7-52-124.2-59.7-178.7-13.3-62 52.8-66.5 149.8-9.9 207.2L239 439.6c12 12 28.3 19.4 45.5 19.4s33.5-7.4 45.5-19.4l183.2-169.7c56.6-57.4 52.1-154.4-9.9-207.2z" />
       </svg>
-      <button class="toggle-mode" onclick="toggleMode()">Modus</button>
+      <button id="mode-toggle" class="toggle-mode">Dunkelmodus</button>
     </div>
   </header>
 
-  <main>
-    <div class="slider-container">
-      <div class="slide active" style="background-image: url('images/pic1.jpg')">
-        <a href="#">
-          <div class="slide-content">
-            <h1>Fashion. Fresh. You.</h1>
-            <button class="shop-btn">Shop Now</button>
-          </div>
-        </a>
-      </div>
-      <div class="slide" style="background-image: url('images/pic2.jpg')">
-        <a href="#">
-          <div class="slide-content">
-            <h1>Power Your Moves</h1>
-            <button class="shop-btn">Shop Now</button>
-          </div>
-        </a>
-      </div>
-      <div class="slide" style="background-image: url('images/pic3.jpg')">
-        <a href="#">
-          <div class="slide-content">
-            <h1>Run. Style. Repeat.</h1>
-            <button class="shop-btn">Shop Now</button>
-          </div>
-        </a>
-      </div>
-      <div class="slide" style="background-image: url('images/pic4.jpg')">
-        <a href="#">
-          <div class="slide-content">
-            <h1>New Season, New You</h1>
-            <button class="shop-btn">Shop Now</button>
-          </div>
-        </a>
-      </div>
-      <div class="slide" style="background-image: url('images/pic5.jpg')">
-        <a href="#">
-          <div class="slide-content">
-            <h1>Gear Up Smart</h1>
-            <button class="shop-btn">Shop Now</button>
-          </div>
-        </a>
-      </div>
-      <div class="dots">
-        <span class="dot active" onclick="showSlide(0)"></span>
-        <span class="dot" onclick="showSlide(1)"></span>
-        <span class="dot" onclick="showSlide(2)"></span>
-        <span class="dot" onclick="showSlide(3)"></span>
-        <span class="dot" onclick="showSlide(4)"></span>
+  <main id="main-slider">
+    <div class="slide active" style="background-image: url('images/sport1.jpg');">
+      <a href="https://www.example.com/sport1" target="_blank" rel="noopener"></a>
+      <div class="slide-content">
+        <h2>Sportliches Outfit 1</h2>
+        <button class="shop-btn">Jetzt shoppen</button>
       </div>
     </div>
-
-    <aside class="sidebar">
-      <h2>SportyAI</h2>
-      <p>Lass uns dein Outfit für deine nächste Herausforderung zusammenstellen.</p>
-      <div class="input-area">
-        <textarea class="input-text" placeholder="Schreib deine Wünsche..."></textarea>
-        <button class="send-btn" aria-label="Nachricht senden">Senden</button>
+    <div class="slide" style="background-image: url('images/sport2.jpg');">
+      <a href="https://www.example.com/sport2" target="_blank" rel="noopener"></a>
+      <div class="slide-content">
+        <h2>Sportliches Outfit 2</h2>
+        <button class="shop-btn">Jetzt shoppen</button>
       </div>
-    </aside>
+    </div>
+    <div class="slide" style="background-image: url('images/sport3.jpg');">
+      <a href="https://www.example.com/sport3" target="_blank" rel="noopener"></a>
+      <div class="slide-content">
+        <h2>Sportliches Outfit 3</h2>
+        <button class="shop-btn">Jetzt shoppen</button>
+      </div>
+    </div>
+    <div class="dots">
+      <div class="dot active" data-slide="0"></div>
+      <div class="dot" data-slide="1"></div>
+      <div class="dot" data-slide="2"></div>
+    </div>
   </main>
+
+  <button id="sportyai-toggle" aria-expanded="false" aria-controls="sportyai-sidebar" aria-label="SportyAI Sidebar öffnen">
+    <span id="notification-badge">1</span>
+    SportyAI
+  </button>
+
+  <aside id="sportyai-sidebar" aria-hidden="true">
+    <h2>SportyAI</h2>
+    <textarea id="sportyai-input" rows="5" placeholder="Lass uns dein Outfit für deine nächste Herausforderung zusammenstellen..."></textarea>
+    <button class="send-btn" id="send-btn">Senden</button>
+  </aside>
 
   <footer>
     <div class="footer-links">
-      <a href="#">Datenschutz</a>
       <a href="#">Impressum</a>
-      <a href="#">AGB</a>
+      <a href="#">Datenschutz</a>
+      <a href="#">Kontakt</a>
     </div>
-    &copy; 2025 GetSporty, Inc. Alle Rechte vorbehalten.
+    &copy; 2025 GetSporty. Alle Rechte vorbehalten.
   </footer>
 
   <script>
-    let currentSlide = 0;
+    // Slide Show Logik
     const slides = document.querySelectorAll('.slide');
     const dots = document.querySelectorAll('.dot');
+    let currentSlide = 0;
+    const totalSlides = slides.length;
 
     function showSlide(index) {
-      slides[currentSlide].classList.remove('active');
-      dots[currentSlide].classList.remove('active');
+      if (index < 0) index = totalSlides - 1;
+      if (index >= totalSlides) index = 0;
+
+      slides.forEach((slide, i) => {
+        slide.classList.toggle('active', i === index);
+      });
+      dots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === index);
+      });
       currentSlide = index;
-      slides[currentSlide].classList.add('active');
-      dots[currentSlide].classList.add('active');
     }
 
-    // Automatisch alle 6 Sekunden wechseln
+    dots.forEach(dot => {
+      dot.addEventListener('click', () => {
+        showSlide(parseInt(dot.dataset.slide));
+      });
+    });
+
+    // Automatisches Wechseln der Slides alle 7 Sekunden
     setInterval(() => {
-      let nextSlide = (currentSlide + 1) % slides.length;
-      showSlide(nextSlide);
-    }, 6000);
+      showSlide(currentSlide + 1);
+    }, 7000);
 
-    function toggleMode() {
-      document.body.classList.toggle('dark');
-    }
-
-    // Logo-Button Effekt
+    // Scroll to top + Logo shine effect on click
     function scrollToTopAndShine() {
       window.scrollTo({ top: 0, behavior: 'smooth' });
-      const logo = document.querySelector('.logo-svg');
-      logo.classList.add('shine');
-      setTimeout(() => logo.classList.remove('shine'), 1000);
+      const logoButton = document.getElementById('logo-button');
+      logoButton.classList.add('shine');
+      setTimeout(() => logoButton.classList.remove('shine'), 1000);
     }
+
+    // Dunkelmodus toggle
+    const modeToggle = document.getElementById('mode-toggle');
+    modeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('dark');
+      if(document.body.classList.contains('dark')) {
+        modeToggle.textContent = 'Hellmodus';
+      } else {
+        modeToggle.textContent = 'Dunkelmodus';
+      }
+    });
+
+    // SportyAI Sidebar Toggle
+    const sportyaiToggle = document.getElementById('sportyai-toggle');
+    const sportyaiSidebar = document.getElementById('sportyai-sidebar');
+    const notificationBadge = document.getElementById('notification-badge');
+    const mainSlider = document.getElementById('main-slider');
+
+    sportyaiToggle.addEventListener('click', () => {
+      const isOpen = sportyaiSidebar.classList.toggle('open');
+      sportyaiToggle.setAttribute('aria-expanded', isOpen);
+      sportyaiSidebar.setAttribute('aria-hidden', !isOpen);
+      if (isOpen) {
+        // Sidebar ist offen: verstecke Badge
+        notificationBadge.classList.add('open');
+        mainSlider.classList.add('sidebar-opened');
+      } else {
+        // Sidebar ist zu: zeige Badge
+        notificationBadge.classList.remove('open');
+        mainSlider.classList.remove('sidebar-opened');
+      }
+    });
+
+    // Optional: Senden Button Logik
+    const sendBtn = document.getElementById('send-btn');
+    sendBtn.addEventListener('click', () => {
+      const userInput = document.getElementById('sportyai-input').value.trim();
+      if(userInput) {
+        alert(`Deine Anfrage an SportyAI:\n${userInput}`);
+        document.getElementById('sportyai-input').value = '';
+      } else {
+        alert('Bitte gib eine Nachricht ein.');
+      }
+    });
   </script>
 </body>
 </html>
