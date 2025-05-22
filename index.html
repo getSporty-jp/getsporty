@@ -2,202 +2,407 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>GetSporty</title>
+  <link rel="icon" href="images/logo-favicon.ico?v=2" type="image/x-icon" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --indigo-dark: #4b0082;
-      --indigo-mid: #6a0dad;
+      --indigo-dark: #12307C;
+      --indigo-mid: #3459B1;
+      --indigo-light: #8C9ED6;
       --gray-light: #f0f0f0;
+      --gray-dark: #2a2a2a;
     }
 
-    /* === AI Button === */
-    #ai-toggle-btn {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      background-color: var(--indigo-dark);
-      color: white;
-      border: none;
-      border-radius: 50px;
-      padding: 12px 20px;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      z-index: 1001;
-    }
-
-    .notification-badge {
-      position: absolute;
-      top: -6px;
-      right: -6px;
-      background-color: red;
-      color: white;
-      font-size: 12px;
-      font-weight: bold;
-      border-radius: 50%;
-      width: 18px;
-      height: 18px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    /* === AI Sidebar Overlay === */
-    #ai-sidebar {
-      position: fixed;
-      top: 0;
-      right: -100%;
-      width: 320px;
-      height: 100vh;
-      background-color: white;
+    body {
+      margin: 0;
+      font-family: 'Lato', sans-serif;
+      background-color: var(--indigo-light);
       color: #111;
-      box-shadow: -6px 0 16px rgba(0, 0, 0, 0.3);
-      transition: right 0.35s ease;
-      display: flex;
-      flex-direction: column;
-      z-index: 1000;
-      overflow: hidden;
+      transition: background-color 0.3s, color 0.3s;
     }
 
-    body.dark #ai-sidebar {
-      background-color: #1a1a1a;
+    body.dark {
+      background-color: var(--indigo-dark);
       color: #eee;
     }
 
-    #ai-sidebar.open {
-      right: 0;
-    }
-
-    .ai-header {
-      padding: 16px;
-      font-weight: bold;
-      background-color: var(--indigo-dark);
-      color: white;
+    header {
+      background-color: white;
+      padding: 10px 30px;
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
     }
 
-    .close-btn {
+    body.dark header {
+      background-color: var(--gray-dark);
+    }
+
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .logo-button {
       background: none;
       border: none;
+      cursor: pointer;
+      padding: 0;
+      transition: transform 0.3s ease;
+    }
+
+    .logo-button:hover {
+      transform: scale(1.1);
+    }
+
+    .logo-svg {
+      width: 60px;
+      height: 60px;
+    }
+
+    .brand-name {
+      font-weight: 700;
+      font-size: 26px;
+      letter-spacing: 1px;
+      color: var(--indigo-dark);
+    }
+
+    body.dark .brand-name {
       color: white;
-      font-size: 22px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 30px;
+      font-weight: 700;
+      font-size: 16px;
+      justify-content: center;
+      flex: 1;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: inherit;
+      transition: color 0.2s ease-in-out;
+    }
+
+    .nav-links a:hover {
+      color: var(--indigo-mid);
+    }
+
+    .header-icons {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .heart-icon {
+      width: 30px;
+      height: 30px;
+      fill: var(--indigo-dark);
       cursor: pointer;
     }
 
-    .ai-body {
-      display: flex;
-      flex-direction: column;
-      flex: 1;
-      padding: 16px;
+    body.dark .heart-icon {
+      fill: white;
+    }
+
+    .toggle-mode {
+      background-color: #e0e0e0;
+      color: #000;
+      border: none;
+      border-radius: 4px;
+      padding: 6px 12px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background-color 0.2s ease-in-out;
+    }
+
+    .toggle-mode:hover {
+      background-color: #ccc;
+    }
+
+    body.dark .toggle-mode {
+      background-color: #444;
+      color: #fff;
+    }
+
+    body.dark .toggle-mode:hover {
+      background-color: #666;
+    }
+
+    .shine {
+      animation: shineEffect 1s ease-in-out;
+    }
+
+    @keyframes shineEffect {
+      0% { filter: brightness(1); }
+      50% { filter: brightness(2); }
+      100% { filter: brightness(1); }
+    }
+
+    main {
+      position: relative;
+      width: 100%;
+      height: 80vh;
       overflow: hidden;
     }
 
-    .ai-intro {
-      font-style: italic;
-      margin-bottom: 12px;
-      color: #444;
+    .slide {
+      display: none;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      transition: opacity 1s ease-in-out;
     }
 
-    body.dark .ai-intro {
-      color: #ccc;
+    .slide.active {
+      display: block;
+      opacity: 1;
     }
 
-    .ai-chat-log {
-      flex: 1;
-      overflow-y: auto;
-      padding-right: 4px;
+    .slide a {
+      display: block;
+      width: 100%;
+      height: 100%;
     }
 
-    .ai-message {
-      background-color: var(--gray-light);
-      padding: 10px;
-      border-radius: 6px;
-      margin-bottom: 10px;
+    .slide-content {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      color: white;
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 15px 25px;
+      border-radius: 5px;
     }
 
-    body.dark .ai-message {
+    .shop-btn {
+      margin-top: 10px;
+      padding: 10px 20px;
+      background-color: white;
+      color: black;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .dots {
+      position: absolute;
+      bottom: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+      z-index: 10;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      background-color: #ccc;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    .dot.active {
       background-color: #333;
     }
 
-    .ai-input-area {
+    footer {
+      background-color: white;
+      color: #333;
+      padding: 20px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    body.dark footer {
+      background-color: var(--gray-dark);
+      color: #ddd;
+    }
+
+    .footer-links {
       display: flex;
-      gap: 6px;
-      margin-top: 12px;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
     }
 
-    .ai-input-area input {
-      flex: 1;
-      padding: 8px;
-      border-radius: 4px;
-      border: 1px solid #ccc;
-      background-color: #fff;
-      color: #111;
+    .footer-links a {
+      text-decoration: none;
+      color: inherit;
     }
 
-    body.dark .ai-input-area input {
-      background-color: #2a2a2a;
-      border: 1px solid #555;
-      color: #eee;
-    }
+    @media (max-width: 700px) {
+      .nav-links {
+        flex-basis: 100%;
+        justify-content: center;
+        margin-top: 10px;
+      }
 
-    .send-btn {
-      background-color: var(--indigo-mid);
-      color: white;
-      border: none;
-      border-radius: 4px;
-      padding: 8px 12px;
-      cursor: pointer;
-    }
+      header {
+        flex-direction: column;
+        gap: 10px;
+      }
 
-    .send-btn:hover {
-      background-color: var(--indigo-dark);
+      .slide-content {
+        font-size: 14px;
+        padding: 10px 15px;
+      }
+
+      .shop-btn {
+        font-size: 14px;
+        padding: 8px 16px;
+      }
     }
   </style>
 </head>
 <body>
+  <header>
+    <div class="logo-area">
+      <button class="logo-button" id="logo-button" onclick="scrollToTopAndShine()">
+        <svg class="logo-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <clipPath id="circle-clip">
+              <circle cx="100" cy="100" r="100" />
+            </clipPath>
+          </defs>
+          <circle cx="100" cy="100" r="100" fill="white" />
+          <path d="M0,140 Q30,120 70,135 Q90,150 120,130 Q150,160 180,140 Q200,130 200,200 L0,200 Z" fill="#12307C" clip-path="url(#circle-clip)" />
+          <path d="M0,90 Q20,70 50,90 Q80,110 110,90 Q140,120 170,85 Q200,100 200,140 Q180,150 140,140 Q100,130 70,140 Q30,130 0,140 Z" fill="#3459B1" clip-path="url(#circle-clip)" />
+          <path d="M0,0 L0,90 Q25,65 55,90 Q90,120 130,80 Q160,100 200,85 L200,0 Z" fill="#8C9ED6" clip-path="url(#circle-clip)" />
+          <path d="M0,90 Q20,60 45,95 Q70,130 100,85 Q125,120 150,75 Q180,110 200,80" fill="none" stroke="white" stroke-width="3" clip-path="url(#circle-clip)" />
+          <path d="M0,140 Q40,125 65,145 Q95,160 130,130 Q170,170 200,140" fill="none" stroke="white" stroke-width="3" clip-path="url(#circle-clip)" />
+        </svg>
+      </button>
+      <span class="brand-name">GETSPORTY</span>
+    </div>
+    <nav class="nav-links">
+      <a href="#">Men</a>
+      <a href="#">Women</a>
+      <a href="#">Kids</a>
+      <a href="#">Find ur Style</a>
+    </nav>
+    <div class="header-icons">
+      <svg class="heart-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 
+          4.42 3 7.5 3c1.74 0 3.41 0.81 4.5 2.09C13.09 3.81 
+          14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 
+          3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+      </svg>
+      <button class="toggle-mode" onclick="toggleMode()">Modus</button>
+    </div>
+  </header>
+
   <main>
-    <!-- Dein bestehender Hauptinhalt hier -->
+    <div class="slide active" style="background-image: url('images/pic1.jpg')">
+      <a href="#">
+        <div class="slide-content">
+          <h1>Fashion. Fresh. You.</h1>
+          <button class="shop-btn">Shop Now</button>
+        </div>
+      </a>
+    </div>
+    <div class="slide" style="background-image: url('images/pic2.jpg')">
+      <a href="#">
+        <div class="slide-content">
+          <h1>Power Your Moves</h1>
+          <button class="shop-btn">Shop Now</button>
+        </div>
+      </a>
+    </div>
+    <div class="slide" style="background-image: url('images/pic3.jpg')">
+      <a href="#">
+        <div class="slide-content">
+          <h1>Run. Style. Repeat.</h1>
+          <button class="shop-btn">Shop Now</button>
+        </div>
+      </a>
+    </div>
+    <div class="slide" style="background-image: url('images/pic4.jpg')">
+      <a href="#">
+        <div class="slide-content">
+          <h1>New Season, New You</h1>
+          <button class="shop-btn">Shop Now</button>
+        </div>
+      </a>
+    </div>
+    <div class="slide" style="background-image: url('images/pic5.jpg')">
+      <a href="#">
+        <div class="slide-content">
+          <h1>Gear Up Smart</h1>
+          <button class="shop-btn">Shop Now</button>
+        </div>
+      </a>
+    </div>
+    <div class="dots">
+      <span class="dot active" onclick="showSlide(0)"></span>
+      <span class="dot" onclick="showSlide(1)"></span>
+      <span class="dot" onclick="showSlide(2)"></span>
+      <span class="dot" onclick="showSlide(3)"></span>
+      <span class="dot" onclick="showSlide(4)"></span>
+    </div>
   </main>
 
-  <!-- AI Button -->
-  <button id="ai-toggle-btn" onclick="toggleSidebar()">
-    SportyAI
-    <span class="notification-badge">1</span>
-  </button>
-
-  <!-- AI Sidebar -->
-  <div id="ai-sidebar">
-    <div class="ai-header">
-      <h2>SportyAI</h2>
-      <button class="close-btn" onclick="toggleSidebar()">×</button>
+  <footer>
+    <div class="footer-links">
+      <a href="#">Impressum</a>
+      <a href="mailto:email@domain.com">E-Mail</a>
+      <a href="#">Kontakt</a>
+      <a href="#">Hilfe</a>
+      <a href="#">AGB</a>
+      <a href="#">Datenschutz</a>
     </div>
-    <div class="ai-body">
-      <p class="ai-intro">
-        Welche Sportart begeistert dich? Erzähle mir davon – und ich stelle dir das perfekte Outfit basierend auf deinem Erfahrungslevel und deinem Stil zusammen!
-      </p>
-      <div class="ai-chat-log">
-        <div class="ai-message">Hi, wie kann ich dir heute helfen?</div>
-      </div>
-      <div class="ai-input-area">
-        <input type="text" placeholder="Frag mich etwas..." />
-        <button class="send-btn">Senden</button>
-      </div>
-    </div>
-  </div>
+  </footer>
 
   <script>
-    function toggleSidebar() {
-      const sidebar = document.getElementById('ai-sidebar');
-      sidebar.classList.toggle('open');
+    const logoButton = document.getElementById("logo-button");
 
-      // Badge beim Öffnen ausblenden
-      if (sidebar.classList.contains('open')) {
-        document.querySelector('.notification-badge').style.display = 'none';
-      }
+    function scrollToTopAndShine() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      triggerShine();
     }
+
+    function triggerShine() {
+      logoButton.classList.remove("shine");
+      void logoButton.offsetWidth;
+      logoButton.classList.add("shine");
+    }
+
+    logoButton.addEventListener("mouseenter", triggerShine);
+    window.addEventListener("load", triggerShine);
+
+    function toggleMode() {
+      document.body.classList.toggle("dark");
+    }
+
+    // Slideshow
+    let currentSlide = 0;
+    const slides = document.querySelectorAll(".slide");
+    const dots = document.querySelectorAll(".dot");
+
+    function showSlide(index) {
+      slides.forEach((s, i) => {
+        s.classList.toggle("active", i === index);
+        dots[i].classList.toggle("active", i === index);
+      });
+      currentSlide = index;
+    }
+
+    setInterval(() => {
+      showSlide((currentSlide + 1) % slides.length);
+    }, 5000);
   </script>
 </body>
-</html>
+</html><!DOCTYPE html>
+<html lang="de">
