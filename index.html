@@ -15,6 +15,64 @@
       --gray-dark: #2a2a2a;
     }
 
+    /* Sidebar Button */
+    #openSidebar {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1001;
+      padding: 10px 16px;
+      background-color: var(--indigo-mid);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    
+    body.dark #openSidebar {
+      background-color: var(--indigo-light);
+      color: #000;
+    }
+
+    /* Sidebar Styles */
+    .sidebar {
+      position: fixed;
+      top: 10vh;
+      right: -320px;
+      width: 300px;
+      height: 80vh;
+      background-color: var(--gray-light);
+      color: #000;
+      border-radius: 20px 0 0 20px;
+      box-shadow: -2px 0 10px rgba(0,0,0,0.2);
+      padding: 20px;
+      transition: right 0.4s ease-in-out;
+      z-index: 1000;
+    }
+    
+    body.dark .sidebar {
+      background-color: var(--gray-dark);
+      color: #fff;
+    }
+    
+    .sidebar.open {
+      right: 0;
+    }
+
+    .sidebar .close-btn {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: transparent;
+      border: none;
+      font-size: 20px;
+      color: inherit;
+      cursor: pointer;
+    }
+
+
     body {
       margin: 0;
       font-family: 'Lato', sans-serif;
@@ -403,6 +461,31 @@
       showSlide((currentSlide + 1) % slides.length);
     }, 5000);
   </script>
+  <!-- Sidebar Button -->
+<button id="openSidebar">SportyAI</button>
+
+<!-- Sidebar -->
+<div class="sidebar" id="sidebar">
+  <button class="close-btn" onclick="toggleSidebar()">×</button>
+  <div class="sidebar-content" style="margin-top: 40px;">
+    <h2>SportyAI</h2>
+    <p>Lass uns dein Outfit für deine nächste Herausforderung zusammenstellen!</p>
+    <textarea placeholder="Was brauchst du?" rows="4" style="width:100%; border-radius:8px; padding:8px;"></textarea>
+    <button style="margin-top:10px; padding:8px 12px; border-radius:8px; background-color:var(--indigo-mid); color:white; border:none;">Senden</button>
+  </div>
+</div>
+
+  <script>
+  const sidebar = document.getElementById('sidebar');
+  const openBtn = document.getElementById('openSidebar');
+
+  openBtn.addEventListener('click', toggleSidebar);
+
+  function toggleSidebar() {
+    sidebar.classList.toggle('open');
+  }
+</script>
+
 </body>
 </html><!DOCTYPE html>
 <html lang="de">
