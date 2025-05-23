@@ -15,43 +15,6 @@
       --gray-dark: #2a2a2a;
     }
 
-    .sidebar-wrapper {
-  position: fixed;
-  top: 10vh;
-  right: 0;
-  height: 80vh;
-  display: flex;
-  align-items: flex-start;
-  z-index: 1000;
-}
-
-.sidebar {
-  right: -300px;
-  transition: right 0.4s ease-in-out;
-}
-
-.sidebar.open {
-  right: 0;
-}
-
-#openSidebar {
-  position: relative;
-  right: 0;
-  border-radius: 10px 0 0 10px;
-  z-index: 1001;
-  height: 40px;
-  align-self: center;
-}
-
-.sidebar-wrapper.open .sidebar {
-  right: 0;
-}
-
-.sidebar-wrapper.open #openSidebar {
-  right: 300px;
-}
-
-
     body {
       margin: 0;
       font-family: 'Lato', sans-serif;
@@ -440,34 +403,6 @@
       showSlide((currentSlide + 1) % slides.length);
     }, 5000);
   </script>
-<!-- Sidebar-Wrapper mit Button & Sidebar -->
-<div class="sidebar-wrapper" id="sidebarWrapper">
-  <button id="openSidebar">SportyAI</button>
-
-  <div class="sidebar" id="sidebar">
-    <button class="close-btn" onclick="toggleSidebar()">×</button>
-    <div class="sidebar-content" style="margin-top: 40px;">
-      <h2>SportyAI</h2>
-      <p>Lass uns dein Outfit für deine nächste Herausforderung zusammenstellen!</p>
-      <textarea placeholder="Was brauchst du?" rows="4" style="width:100%; border-radius:8px; padding:8px;"></textarea>
-      <button style="margin-top:10px; padding:8px 12px; border-radius:8px; background-color:var(--indigo-mid); color:white; border:none;">Senden</button>
-    </div>
-  </div>
-</div>
-
-
-<script>
-  const sidebarWrapper = document.getElementById('sidebarWrapper');
-  const openBtn = document.getElementById('openSidebar');
-
-  openBtn.addEventListener('click', toggleSidebar);
-
-  function toggleSidebar() {
-    sidebarWrapper.classList.toggle('open');
-  }
-</script>
-
-
 </body>
 </html><!DOCTYPE html>
 <html lang="de">
